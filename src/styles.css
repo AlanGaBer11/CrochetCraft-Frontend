@@ -1,20 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
-/* FUENTE */
+/* ICONOS DE FLATICON */
 
+/* COLORES */
 :root {
-  --color-primary: #975473;
-  --color-primary-rgb: 151, 84, 115;
+  --color-primary: #c66f82;
+  --color-primary-rgb: 198, 111, 130;
   --color-primary-contrast: #ffffff;
   --color-primary-contrast-rgb: 255, 255, 255;
-  --color-primary-shade: #854a64;
-  --color-primary-tint: #a56b83;
+  --color-primary-shade: #b05f74;
+  --color-primary-tint: #ce7c91;
 
-  --color-secondary: #c66f82;
-  --color-secondary-rgb: 198, 111, 130;
+  --color-secondary: #975473;
+  --color-secondary-rgb: 151, 84, 115;
   --color-secondary-contrast: #ffffff;
   --color-secondary-contrast-rgb: 255, 255, 255;
-  --color-secondary-shade: #b05f74;
-  --color-secondary-tint: #ce7c91;
+  --color-secondary-shade: #854a64;
+  --color-secondary-tint: #a56b83;
 
   --color-tertiary: #e7a899;
   --color-tertiary-rgb: 231, 168, 153;
@@ -23,12 +23,12 @@
   --color-tertiary-shade: #cf9689;
   --color-tertiary-tint: #ebb3a5;
 
-  --color-success: #28a745;
-  --color-success-rgb: 40, 167, 69;
-  --color-success-contrast: #ffffff;
-  --color-success-contrast-rgb: 255, 255, 255;
-  --color-success-shade: #218838;
-  --color-success-tint: #34ce57;
+  --color-success: #2dd55b;
+  --color-success-rgb: 45, 213, 91;
+  --color-success-contrast: #000;
+  --color-success-contrast-rgb: 0, 0, 0;
+  --color-success-shade: #28bb50;
+  --color-success-tint: #42d96b;
 
   --color-warning: #e7a899;
   --color-warning-rgb: 231, 168, 153;
@@ -37,12 +37,12 @@
   --color-warning-shade: #cf9689;
   --color-warning-tint: #ebb3a5;
 
-  --color-danger: #dc3545;
-  --color-danger-rgb: 220, 53, 69;
-  --color-danger-contrast: #ffffff;
+  --color-danger: #c5000f;
+  --color-danger-rgb: 197, 0, 15;
+  --color-danger-contrast: #fff;
   --color-danger-contrast-rgb: 255, 255, 255;
-  --color-danger-shade: #c82333;
-  --color-danger-tint: #e4606d;
+  --color-danger-shade: #ad000d;
+  --color-danger-tint: #cb1a27;
 
   --color-light: #f0e9d7;
   --color-light-rgb: 240, 233, 215;
@@ -59,6 +59,13 @@
   --color-dark-tint: #5b495a;
 }
 
+/* FUENTES */
+.poppins-extralight {
+  font-family: "Poppins", serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
 html {
   height: 100%;
   scroll-behavior: smooth;
@@ -67,42 +74,73 @@ html {
 body {
   height: 100%;
   margin: 0;
-  font-family: "Roboto", "Helvetica Neue", sans-serif; /* CAMBIAR JEJE */
+  font-family: "Poppins", sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color: #333;
-  background-color: #f8f9fa;
+  color: #000;
+  background-color: var(--color-light);
 }
-
-h1,
-h2,
-h3,
-h4 {
-  font-weight: 700;
-  margin: 0 0 10px 0;
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: var(--color-light);
+}
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: var(--color-secondary);
+  border: 2px solid var(--color-light);
 }
 
 h1 {
   font-size: 40px;
-  text-transform: uppercase;
   letter-spacing: 1.5px;
+  font-family: "Poppins", serif;
+  font-weight: 900;
+  font-style: normal;
 }
 
 h2 {
   font-size: 32px;
+  font-family: "Poppins", serif;
+  font-weight: 700;
+  font-style: normal;
 }
 
 h3 {
   font-size: 28px;
+  font-family: "Poppins", serif;
+  font-weight: 600;
+  font-style: normal;
 }
 
 h4 {
   font-size: 24px;
+  font-family: "Poppins", serif;
+  font-weight: 500;
+  font-style: normal;
 }
 
 p {
+  font-size: 20px;
+  font-family: "Poppins", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+button {
+  margin: 5px 15px;
+  padding: 10px 20px;
+  font-family: "Poppins", serif;
   font-size: 16px;
-  margin: 0 0 15px 0;
+  background-color: var(--color-secondary);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 @media (max-width: 768px) {
@@ -119,6 +157,6 @@ p {
     font-size: 20px;
   }
   p {
-    font-size: 14px;
+    font-size: 16px;
   }
 }

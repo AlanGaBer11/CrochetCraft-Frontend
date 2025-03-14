@@ -1,0 +1,31 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="text-container">
+  <h1>Crea tu imaginación</h1>
+  <p>
+    Bienvenido al reino encantado de las manualidades de
+    <strong>Crochet</strong>. <br />Descubre maravillas tejidas a mani en todas
+    las categorías, <br />
+    elaboradas con pasión y dedicación. <br />Sumérgete y píerdete en un mundo
+    en el que los hilos bailan <br />para crear formas fantásticas.
+  </p>
+</div>
+<br />
+
+<div class="card-container">
+  <div class="card" *ngFor="let card of cards">
+    <div class="card-img">
+      <img [src]="card.img" [alt]="card.titulo" />
+    </div>
+
+    <div class="card-body">
+      <h2>{{ card.titulo }}</h2>
+      <button [routerLink]="card.link">
+        Explorar el <br />
+        catálogo
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
