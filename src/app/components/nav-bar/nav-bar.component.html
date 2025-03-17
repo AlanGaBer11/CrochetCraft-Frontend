@@ -1,1 +1,33 @@
-<p>nav-bar works!</p>
+<header>
+  <nav class="menu">
+    <img routerLink="/inicio" src="assets/img/logo.png" alt="CrochetCraft" />
+    <h1 routerLink="/inicio">CrochetCraft</h1>
+    <ul class="links">
+      <li><a routerLink="/inicio">Inicio</a></li>
+      <li>
+        <a routerLink="/categorias" class="icon">
+          Productos
+          <span class="material-symbols-rounded">arrow_drop_down</span>
+        </a>
+        <ul>
+          <li class="sub"><a routerLink="#flores">Flores</a></li>
+          <li class="sub"><a routerLink="#amigurumis">Amigurumis</a></li>
+          <li class="sub"><a routerLink="#llaveros">Llaveros</a></li>
+          <li class="sub"><a routerLink="#ropa">Ropa</a></li>
+        </ul>
+      </li>
+      <li>
+        <a routerLink="#contacto" class="icon">
+          Contacto
+          <span class="material-symbols-rounded">arrow_drop_down</span>
+        </a>
+        <ul>
+          <li class="sub"><a href="#whatsapp" target="_blank">WhatsApp</a></li>
+        </ul>
+      </li>
+      <li><span class="material-symbols-rounded"> shopping_cart </span></li>
+
+      <button type="button" routerLink="/auth">Registrate</button>
+    </ul>
+  </nav>
+</header>
