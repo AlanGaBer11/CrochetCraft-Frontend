@@ -12,6 +12,7 @@ import {
 } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
+/* reCAPTCHA */
 import { NgxCaptchaModule } from 'ngx-captcha';
 
 import { AppRoutingModule } from './app-routing.module';

@@ -23,16 +23,24 @@
     autoplay-delay="2000"
   >
     <swiper-slide>
-      <img src="assets/img/3.jpeg" alt="PP" />
+      <div class="image-container">
+        <img src="assets/img/amigurumis/vaca2.webp" alt="Amigurumi Vaca" />
+      </div>
     </swiper-slide>
     <swiper-slide>
-      <img src="assets/img/3.jpeg" alt="PP" />
+      <div class="image-container">
+        <img src="assets/img/flores/rosa2.webp" alt="Rosa de Crochet" />
+      </div>
     </swiper-slide>
     <swiper-slide>
-      <img src="assets/img/3.jpeg" alt="PP" />
+      <div class="image-container">
+        <img src="assets/img/llaveros/llaveroGorra2.jpg" alt="Llavero Gorra" />
+      </div>
     </swiper-slide>
     <swiper-slide>
-      <img src="assets/img/3.jpeg" alt="PP" />
+      <div class="image-container">
+        <img src="assets/img/amigurumis/kitty1.webp" alt="Amigurumi Kitty" />
+      </div>
     </swiper-slide>
   </swiper-container>
 </div>
@@ -42,23 +50,17 @@
 <!-- PRODUCTOS -->
 <h2 style="text-align: center">Nuestra Colección Única</h2>
 <div class="coleccion-container">
-  <div class="img1">
-    <img src="" alt="" />
-  </div>
-  <div class="img2">
-    <img src="" alt="" />
-  </div>
-  <div class="img3">
-    <img src="" alt="" />
-  </div>
-  <div class="img4">
-    <img src="" alt="" />
-  </div>
+  <div class="img1"></div>
+  <div class="img2"></div>
+  <div class="img3"></div>
+  <div class="img4"></div>
 </div>
+<br />
+<br />
 <br />
 
 <div class="productos-container">
-  <button type="button" routerLink="test02">Explora los productos</button>
+  <button type="button" routerLink="/categorias">Explora los productos</button>
 
   <div class="text-container">
     <h2>Nuestros Productos</h2>
@@ -89,8 +91,57 @@
     Nos gustaría conocer tu opinion <br />
     de nuestros productos
   </h2>
-  <button type="button" routerLink="test01">Agregar</button>
+  <button type="button" (click)="openModal()" popovertarget="modal">
+    Agregar
+  </button>
 </div>
+
+<!-- Modal -->
+<div
+  class="modal-overlay"
+  [class.show]="isModalOpen"
+  (click)="closeModalOnOverlay($event)"
+>
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>Agregar Reseña</h2>
+      <button class="close-btn" (click)="closeModal()">
+        <span class="material-symbols-rounded"> close </span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" placeholder="Tu nombre" />
+        </div>
+        <div class="form-group">
+          <label for="comentario">Comentario</label>
+          <textarea
+            id="comentario"
+            rows="4"
+            placeholder="Comparte tu experiencia con nuestros productos"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="rating">Calificación</label>
+          <select id="rating">
+            <option value="5">5 estrellas</option>
+            <option value="4">4 estrellas</option>
+            <option value="3">3 estrellas</option>
+            <option value="2">2 estrellas</option>
+            <option value="1">1 estrella</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="cancel-btn" (click)="closeModal()">Cancelar</button>
+      <button class="submit-btn">Enviar</button>
+    </div>
+  </div>
+</div>
+
 <br />
 
 <!-- REGISTRO -->

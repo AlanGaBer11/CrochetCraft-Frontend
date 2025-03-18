@@ -11,7 +11,7 @@ export class AuthComponent implements OnInit {
   isSignUpMode: boolean = false;
   showPassword: boolean = false;
 
-  /* ! REMPLAZAR POR LA API DE REGISTER */
+  //! REMPLAZAR POR LA API DE REGISTER
   loginGroup: FormGroup = new FormGroup({});
   registerGroup: FormGroup = new FormGroup({});
 
