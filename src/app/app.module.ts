@@ -12,6 +12,8 @@ import {
 } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
+import { NgxCaptchaModule } from 'ngx-captcha';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -44,6 +46,7 @@ import { Test02Component } from './test/test02/test02.component';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    NgxCaptchaModule,
   ],
   providers: [
     provideHttpClient(),

@@ -1,1 +1,135 @@
-<p>auth works!</p>
+<div class="super-container">
+  <div class="container" [ngClass]="{ active: isSignUpMode }">
+    <!-- Formulario de Inicio de Sesión -->
+    <div class="form-container sign-in">
+      <form [formGroup]="loginGroup">
+        <h1>Iniciar Sesión</h1>
+        <span>con tu correo y contraseña</span>
+        <br />
+
+        <div class="form-group">
+          <input
+            type="email"
+            id="login-email"
+            formControlName="email"
+            required
+            placeholder=" "
+          />
+          <label for="login-email">Correo Electrónico</label>
+        </div>
+
+        <div class="form-group password-container">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="login-password"
+            formControlName="password"
+            required
+            placeholder=" "
+          />
+          <label for="login-password">Contraseña</label>
+          <span class="material-symbols-rounded eye" (click)="togglePassword()">
+            {{ showPassword ? "visibility_off" : "visibility" }}
+          </span>
+        </div>
+        <!-- CAPTCHA -->
+        <ngx-recaptcha2
+          [siteKey]="'6LerxvcqAAAAAE23WZewOU9rLLBdCuIH28dF_XwU'"
+          [useGlobalDomain]="false"
+          formControlName="recaptcha"
+        ></ngx-recaptcha2>
+        <br />
+
+        <a href="#">¿Olvidaste tu contraseña?</a>
+        <br />
+
+        <button type="submit">Iniciar Sesión</button>
+      </form>
+    </div>
+
+    <!-- Formulario de Registro -->
+    <div class="form-container sign-up">
+      <form [formGroup]="registerGroup">
+        <h1>Regístrate</h1>
+        <span>Usa tu correo para registrarte</span>
+
+        <div class="form-group">
+          <input
+            type="text"
+            id="register-name"
+            formControlName="name"
+            required
+            placeholder=" "
+          />
+          <label for="register-name">Nombre Completo</label>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="email"
+            id="register-email"
+            formControlName="email"
+            required
+            placeholder=" "
+          />
+          <label for="register-email">Correo Electrónico</label>
+        </div>
+
+        <div class="form-group password-container">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="register-password"
+            formControlName="password"
+            required
+            placeholder=" "
+          />
+          <label for="register-password">Contraseña</label>
+          <span class="material-symbols-rounded eye" (click)="togglePassword()">
+            {{ showPassword ? "visibility_off" : "visibility" }}
+          </span>
+        </div>
+
+        <div class="form-group password-container">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="register-confirm-password"
+            formControlName="confirmPassword"
+            required
+            placeholder=" "
+          />
+          <label for="register-confirm-password">Confirmar Contraseña</label>
+          <span class="material-symbols-rounded eye" (click)="togglePassword()">
+            {{ showPassword ? "visibility_off" : "visibility" }}
+          </span>
+        </div>
+        <!-- CAPTCHA -->
+        <ngx-recaptcha2
+          [siteKey]="'6LerxvcqAAAAAE23WZewOU9rLLBdCuIH28dF_XwU'"
+          [useGlobalDomain]="false"
+          formControlName="recaptcha"
+        ></ngx-recaptcha2>
+        <button type="submit">Registrarse</button>
+      </form>
+    </div>
+
+    <!-- Panel de Alternancia -->
+    <div class="toggle-container">
+      <div class="toggle">
+        <div class="toggle-panel toggle-left">
+          <h1>¿Tienes cuenta?</h1>
+          <p>
+            Ingresa con tus datos para usar todas las funcionalidades del sitio
+          </p>
+          <button class="hidden" (click)="toggleForm()">Iniciar Sesión</button>
+        </div>
+        <div class="toggle-panel toggle-right">
+          <h1>¿No tienes cuenta?</h1>
+          <p>
+            Regístrate con tus datos personales para usar todas las
+            funcionalidades del sitio
+          </p>
+          <button class="hidden" (click)="toggleForm()">Regístrate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
