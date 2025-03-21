@@ -6,7 +6,9 @@
   <button class="search-btn">Buscar</button>
 </div>
 
-<div class="breadcrumb"><a href="#">Inicio</a> > <span>Categoría</span></div>
+<div class="breadcrumb">
+  <a href="#">Inicio</a> > <span>{{ categoria }}</span>
+</div>
 
 <div class="main-container">
   <div class="sidebar">
@@ -16,7 +18,7 @@
       <h3>Estatus</h3>
       <div class="checkbox-item">
         <input type="checkbox" id="inStock" />
-        <label for="inStock">En existencia (1)</label>
+        <label for="inStock">En existencia ({{ products.length }})</label>
       </div>
     </div>
 
@@ -52,20 +54,47 @@
   <div class="products-container">
     <h1>{{ categoria }}</h1>
 
-    <div class="product-grid">
-      <!-- PRODUCTOS -->
+    <!-- Loading indicator -->
+    <div class="loading-container" *ngIf="cargando">
+      <div class="spinner"></div>
+      <p>Cargando productos...</p>
+    </div>
+
+    <!-- Error message -->
+    <div class="error-container" *ngIf="error">
+      <p class="error-message">{{ error }}</p>
+      <!-- <button class="retry-btn" (click)="retryLoading()">Reintentar</button> -->
+    </div>
+
+    <!-- Products grid -->
+    <div
+      class="product-grid"
+      *ngIf="!cargando && !error && products.length > 0"
+    >
       <div class="product-card" *ngFor="let producto of products">
         <div class="product-img">
           <img [src]="producto.urlImagenes" [alt]="producto.nombre" />
         </div>
         <div class="product-details">
           <h2>{{ producto.nombre }}</h2>
-          <h3>{{ producto.precio }}</h3>
-          <button type="button" class="more-btn">Saber más</button>
-          <!-- ROUTERLINK CORRESPONDIENTE -->
+          <h3>${{ producto.precio }} MXN</h3>
+          <button
+            type="button"
+            class="more-btn"
+            [routerLink]="['/producto', producto._id]"
+          >
+            Saber más
+          </button>
         </div>
       </div>
-      <!--  -->
+    </div>
+
+    <!-- No products message -->
+    <div
+      class="no-products"
+      *ngIf="!cargando && !error && products.length === 0"
+    >
+      <p>No hay productos disponibles en esta categoría.</p>
     </div>
   </div>
 </div>

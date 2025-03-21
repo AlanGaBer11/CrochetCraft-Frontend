@@ -9,4 +9,10 @@ import { Component, Input } from '@angular/core';
 export class CatalogoComponent {
   @Input() categoria: string = '';
   @Input() products: any[] = [];
+  @Input() cargando: boolean = false;
+  @Input() error: string | null = null;
+
+  formatPrice(price: number): string {
+    return `$${price} MXN`;
+  }
 }

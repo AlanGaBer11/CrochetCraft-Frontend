@@ -21,12 +21,12 @@ export class CategoriasComponent {
     {
       titulo: 'Llaveros',
       img: 'assets/img/3.jpeg',
-      link: '/test01',
+      link: '/llaveros',
     },
     {
       titulo: 'Ropa',
       img: 'assets/img/3.jpeg',
-      link: '/test02',
+      link: '/ropa',
     },
   ];
 }

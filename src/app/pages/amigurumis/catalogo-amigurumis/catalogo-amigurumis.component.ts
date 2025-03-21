@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../../../services/product/product.service';
 
 @Component({
   selector: 'app-catalogo-amigurumis',
@@ -6,37 +7,34 @@ import { Component } from '@angular/core';
   templateUrl: './catalogo-amigurumis.component.html',
   styleUrl: './catalogo-amigurumis.component.css',
 })
-export class CatalogoAmigurumisComponent {
-  amigurumisProductos = [
-    {
-      nombre: 'Amigurumi 1',
-      precio: '100',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-    {
-      nombre: 'Amigurumi 2',
-      precio: '200',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-    {
-      nombre: 'Amigurumi 3',
-      precio: '300',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-    {
-      nombre: 'Amigurumi 4',
-      precio: '400',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-    {
-      nombre: 'Amigurumi 5',
-      precio: '500',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-    {
-      nombre: 'Amigurumi 6',
-      precio: '500',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-  ];
+export class CatalogoAmigurumisComponent implements OnInit {
+  amigurumisProductos: any[] = [];
+  cargando: boolean = true;
+  error: string | null = null;
+
+  constructor(private readonly productService: ProductService) {}
+
+  ngOnInit(): void {
+    this.cargaProductos();
+  }
+
+  // OBTENER PRODUCTOS POR CATEGORÍA
+  cargaProductos(): void {
+    this.cargando = true;
+    this.productService.getProductsByCategory('Amigurumis').subscribe({
+      next: (respuesta) => {
+        if (respuesta.success) {
+          this.amigurumisProductos = respuesta.products;
+        } else {
+          this.error = 'No se pudieron cargar los productos';
+        }
+        this.cargando = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar los productos: ', err);
+        this.error = 'Error al conectar con el servidor';
+        this.cargando = false;
+      },
+    });
+  }
 }

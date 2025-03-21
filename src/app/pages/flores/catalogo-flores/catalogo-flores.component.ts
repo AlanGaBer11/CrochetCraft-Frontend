@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../../../services/product/product.service';
 
 @Component({
   selector: 'app-catalogo-flores',
@@ -6,39 +7,34 @@ import { Component } from '@angular/core';
   templateUrl: './catalogo-flores.component.html',
   styleUrl: './catalogo-flores.component.css',
 })
-export class CatalogoFloresComponent {
-  floresProductos = [
-    {
-      nombre: 'Flor 1',
-      precio: '100',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-    {
-      nombre: 'Flor 2',
-      precio: '200',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-    {
-      nombre: 'Flor 3',
-      precio: '300',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-    {
-      nombre: 'Flor 4',
-      precio: '400',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-    {
-      nombre: 'Flor 5',
-      precio: '500',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-    {
-      nombre: 'Flor 6',
-      precio: '500',
-      urlImagenes: 'assets/img/3.jpeg',
-    },
-  ];
+export class CatalogoFloresComponent implements OnInit {
+  floresProductos: any[] = [];
+  cargando: boolean = true;
+  error: string | null = null;
 
-  constructor() {}
+  constructor(private readonly productService: ProductService) {}
+
+  ngOnInit(): void {
+    this.cargaProductos();
+  }
+
+  // OBTENER PRODUCTOS POR CATEGORÍA
+  cargaProductos(): void {
+    this.cargando = true;
+    this.productService.getProductsByCategory('Flores').subscribe({
+      next: (respuesta) => {
+        if (respuesta.success) {
+          this.floresProductos = respuesta.products;
+        } else {
+          this.error = 'No se pudieron cargar los productos';
+        }
+        this.cargando = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar los productos: ', err);
+        this.error = 'Error al conectar con el servidor';
+        this.cargando = false;
+      },
+    });
+  }
 }
