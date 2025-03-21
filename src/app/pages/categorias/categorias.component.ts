@@ -11,12 +11,12 @@ export class CategoriasComponent {
     {
       titulo: 'Flores',
       img: 'assets/img/3.jpeg',
-      link: '/test01',
+      link: '/flores',
     },
     {
       titulo: 'Amigurumis',
       img: 'assets/img/3.jpeg',
-      link: '/test02',
+      link: '/amigurumis',
     },
     {
       titulo: 'Llaveros',

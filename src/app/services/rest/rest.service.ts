@@ -1,19 +1,18 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class RestServiceService {
-
+export class RestService {
   constructor(private readonly http: HttpClient) {}
-  
+
   // MÉTODO GET
   public get(url: string) {
     return this.http.get(url);
   }
 
-  // MÉTODO POST 
+  // MÉTODO POST
   public post(url: string, data: any) {
     return this.http.post(url, data);
   }

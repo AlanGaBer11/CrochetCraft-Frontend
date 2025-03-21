@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ToastServiceService } from '../../services/toastService/toast-service.service';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +10,12 @@ import { ToastServiceService } from '../../services/toastService/toast-service.s
 export class HomeComponent {
   isModalOpen = false;
 
-  constructor(private readonly toast: ToastServiceService) {}
-
-  public showToast() {
-    this.toast.productOutOfStock('Flores');
+  constructor(private readonly toast: ToastService) {}
+  showSuccess() {
+    return this.toast.showSuccess('HOLA');
+  }
+  showError() {
+    return this.toast.showError('HOLA SOY UN ERROR PIPIPI');
   }
 
   public resenas = [

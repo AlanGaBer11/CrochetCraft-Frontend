@@ -1,0 +1,71 @@
+<div class="search-box">
+  <div class="search-input">
+    <span class="material-symbols-rounded">search</span>
+    <input type="search" placeholder="Buscar dentro de esta categoría" />
+  </div>
+  <button class="search-btn">Buscar</button>
+</div>
+
+<div class="breadcrumb"><a href="#">Inicio</a> > <span>Categoría</span></div>
+
+<div class="main-container">
+  <div class="sidebar">
+    <h2>Filtros</h2>
+
+    <div class="filter-section">
+      <h3>Estatus</h3>
+      <div class="checkbox-item">
+        <input type="checkbox" id="inStock" />
+        <label for="inStock">En existencia (1)</label>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <h3>Precio</h3>
+      <div class="checkbox-item">
+        <input type="checkbox" id="price1" />
+        <label for="price1">$0 - $50</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="price2" />
+        <label for="price2">$50 - $100</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="price3" />
+        <label for="price3">$100 - $150</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="price4" />
+        <label for="price4">$150 - $200</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="price5" />
+        <label for="price5">$200 - $250</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="price6" />
+        <label for="price6">$250 - $300</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="products-container">
+    <h1>{{ categoria }}</h1>
+
+    <div class="product-grid">
+      <!-- PRODUCTOS -->
+      <div class="product-card" *ngFor="let producto of products">
+        <div class="product-img">
+          <img [src]="producto.urlImagenes" [alt]="producto.nombre" />
+        </div>
+        <div class="product-details">
+          <h2>{{ producto.nombre }}</h2>
+          <h3>{{ producto.precio }}</h3>
+          <button type="button" class="more-btn">Saber más</button>
+          <!-- ROUTERLINK CORRESPONDIENTE -->
+        </div>
+      </div>
+      <!--  -->
+    </div>
+  </div>
+</div>
