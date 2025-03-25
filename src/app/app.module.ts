@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 /* reCAPTCHA */
 import { NgxCaptchaModule } from 'ngx-captcha';
@@ -70,7 +71,7 @@ import { CatalogoAmigurumisComponent } from './pages/amigurumis/catalogo-amiguru
     MatFormFieldModule,
     HttpClientModule,
   ],
-  providers: [provideAnimationsAsync(), provideHotToastConfig()],
+  providers: [provideAnimationsAsync(), provideHotToastConfig(), CookieService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

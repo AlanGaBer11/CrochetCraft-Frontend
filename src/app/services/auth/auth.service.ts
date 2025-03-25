@@ -1,80 +1,58 @@
 import { Injectable } from '@angular/core';
-import { HotToastService } from '@ngxpert/hot-toast';
-
+import { HttpClient } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private readonly toast: HotToastService) {}
+  private readonly apiUrl = 'https://localhost:3000/api/auth';
 
-  /* AUTH */
-  // MENSAJE PARA CUANDO SE REGISTRA UN USUARIO
-  registroExitoso() {
-    return this.toast.success('¡Registro Exitoso En CrochetCraft!', {
-      duration: 4000,
-    });
+  constructor(
+    private readonly http: HttpClient,
+    private readonly cookies: CookieService
+  ) {}
+
+  // REGISTRAR USUARIO
+  register(user: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user);
   }
 
-  // MENSAJE PARA CUANDO SE INICIA SESIÓN
-  loginExitoso(nombre: string) {
-    return this.toast.success(`¡Bienvenido De Nuevo ${nombre}!`, {
-      duration: 4000,
-    });
+  // LOGEAR USUARIO
+  login(user: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, user);
   }
 
-  // MENSAJE PARA CUANDO EL INICIO DE SESIÓN FALLA
-  loginFallido() {
-    return this.toast.error('¡Error Al Iniciar Sesión!', {
-      duration: 4000,
-    });
+  // ESTABLECER TOKEN
+  setToken(token: String) {
+    this.cookies.set('token', token);
   }
 
-  // MENSAJE DE CIERRE DE SESIÓN
-  logout() {
-    return this.toast.success('¡Has Cerrado Sesión Correctamente!', {
-      duration: 4000,
-      position: 'top-right',
-    });
+  // OBTENER TOKEN
+  getToken() {
+    return this.cookies.get('token');
   }
 
-  // MENSAJE PARA CUANDO SE ENVIA UN CORREO DE VERIFICACIÓN
-  codigoVerificacion() {
-    return this.toast.success('¡Código De Verificación Enviado!', {
-      duration: 4000,
-    });
+  // ENVIAR CODIGO DE VERIFICACIÓN
+  sendVerificationCode(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/send-verification-code`, email);
   }
 
-  // MENSAJE PARA CUANDO SE VERIFICA EL CODIGO DE VERIFICACIÓN
-  codigoVerificado() {
-    return this.toast.success('¡Código De Verificación Verificado!', {
-      duration: 4000,
-    });
+  // VERIFICAR CODIGO DE VERIFICACIÓN
+  verifyCode(code: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/verify-code`, code);
   }
 
-  // MENSAJE PARA CUANDO EL CODIGO DE VERIFICACIÓN FALLA
-  codigoFallido() {
-    return this.toast.error('¡Código De Verificación Incorrecto!', {
-      duration: 4000,
-    });
+  // ENVIAR CORREO PARA RESTABLECER CONTRASEÑA
+  requestPasswordReset(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/request-password-reset`, email);
   }
 
-  // MENSAJE PARA CUANDO SE MANDA UN CORREO PARA RESTABLECER LA CONTRASEÑA
-  recuperarContraseña() {
-    return this.toast.success('¡Correo Para Restablecer Contraseña Enviado!', {
-      duration: 4000,
-    });
-  }
-
-  // MENSAJE PARA CUANDO SE RESTABLECE LA CONTRASEÑA
-  restablecimientoExitoso() {
-    return this.toast.success('¡Contraseña Restablecida!', {
-      duration: 4000,
-    });
-  }
-  // MENSAJE PARA CUANDO EL RESTABLECIMIENTO DE CONTRASEÑA FALLA
-  restablecimientoFallido() {
-    return this.toast.error('¡Error Al Restablecer Contraseña!', {
-      duration: 4000,
+  // RESTABLECER CONTRASEÑA
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, {
+      token,
+      newPassword,
     });
   }
 }
