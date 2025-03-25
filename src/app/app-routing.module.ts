@@ -14,6 +14,8 @@ import { CatalogoAmigurumisComponent } from './pages/amigurumis/catalogo-amiguru
 const routes: Routes = [
   { path: 'inicio', component: HomeComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' },
+  /* RUTAS NO ENCONTRADAS */
+  /* { path: '**', redirectTo: 'inicio' }, */
 
   { path: 'categorias', component: CategoriasComponent },
 

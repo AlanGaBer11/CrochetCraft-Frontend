@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideRouter, withViewTransitions } from '@angular/router';
 
 /* ANGULAR MATERIAL */
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+/* NOTIFICACIONES TOAST */
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -71,7 +73,12 @@ import { CatalogoAmigurumisComponent } from './pages/amigurumis/catalogo-amiguru
     MatFormFieldModule,
     HttpClientModule,
   ],
-  providers: [provideAnimationsAsync(), provideHotToastConfig(), CookieService],
+  providers: [
+    provideAnimationsAsync(),
+    provideHotToastConfig(),
+    provideRouter([], withViewTransitions()),
+    CookieService,
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
