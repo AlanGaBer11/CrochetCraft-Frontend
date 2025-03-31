@@ -43,6 +43,7 @@ import { GirasolComponent } from './pages/flores/girasol/girasol.component';
 import { CatalogoFloresComponent } from './pages/flores/catalogo-flores/catalogo-flores.component';
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { CatalogoAmigurumisComponent } from './pages/amigurumis/catalogo-amigurumis/catalogo-amigurumis.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { CatalogoAmigurumisComponent } from './pages/amigurumis/catalogo-amiguru
     CatalogoFloresComponent,
     CatalogoComponent,
     CatalogoAmigurumisComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,

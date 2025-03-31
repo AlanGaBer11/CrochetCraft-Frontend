@@ -27,7 +27,26 @@
       </li>
       <li><span class="material-symbols-rounded"> shopping_cart </span></li>
 
-      <button type="button" routerLink="/auth">Registrate</button>
+      <!-- Si NO está autenticado, muestra el botón de Registrarse -->
+      <button *ngIf="!isLoggedIn" type="button" routerLink="/auth">
+        Registrate
+      </button>
+
+      <!-- Si está autenticado, muestra el nombre y botón de logout -->
+      <li>
+        <button *ngIf="isLoggedIn" type="button">{{ nombre }}</button>
+        <ul class="user">
+          <div class="buttons">
+            <li class="sub">
+              <!-- ! CAMBIAR ROUTERLINK -->
+              <button routerLink="/flores">Perfil</button>
+            </li>
+            <li class="sub">
+              <button (click)="logout()">Cerrar Sesión</button>
+            </li>
+          </div>
+        </ul>
+      </li>
     </ul>
   </nav>
 </header>

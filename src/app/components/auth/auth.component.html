@@ -2,7 +2,13 @@
   <div class="container" [ngClass]="{ active: isSignUpMode }">
     <!-- Formulario de Inicio de Sesión -->
     <div class="form-container sign-in">
-      <form [formGroup]="loginGroup">
+      <div class="back-button">
+        <span class="material-symbols-rounded" routerLink="/inicio">
+          arrow_back
+        </span>
+      </div>
+
+      <form [formGroup]="loginForm">
         <h1>Iniciar Sesión</h1>
         <span>con tu correo y contraseña</span>
         <br />
@@ -16,6 +22,13 @@
             placeholder=" "
           />
           <label for="login-email">Correo Electrónico</label>
+          <div
+            *ngIf="
+              loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+            "
+          >
+            <small>Introduce un correo válido</small>
+          </div>
         </div>
 
         <div class="form-group password-container">
@@ -31,24 +44,27 @@
             {{ showPassword ? "visibility_off" : "visibility" }}
           </span>
         </div>
-        <!-- CAPTCHA -->
-        <ngx-recaptcha2
+
+        <!--? CAPTCHA -->
+        <!--         <ngx-recaptcha2
           [siteKey]="'6LerxvcqAAAAAE23WZewOU9rLLBdCuIH28dF_XwU'"
           [useGlobalDomain]="false"
           formControlName="recaptcha"
-        ></ngx-recaptcha2>
+        ></ngx-recaptcha2> -->
         <br />
 
         <a href="#">¿Olvidaste tu contraseña?</a>
         <br />
 
-        <button type="submit">Iniciar Sesión</button>
+        <button type="submit" (click)="login()" [disabled]="!isFormValid">
+          Iniciar Sesión
+        </button>
       </form>
     </div>
 
     <!--! Formulario de Registro -->
     <div class="form-container sign-up">
-      <form [formGroup]="registerGroup">
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
         <h1>Regístrate</h1>
         <span>Usa tu correo para registrarte</span>
 
@@ -56,11 +72,22 @@
           <input
             type="text"
             id="register-name"
-            formControlName="name"
+            formControlName="nombre"
             required
             placeholder=" "
           />
           <label for="register-name">Nombre Completo</label>
+          <div
+            *ngIf="
+              registerForm.get('nombre')?.invalid &&
+              registerForm.get('nombre')?.touched
+            "
+          >
+            <small
+              >El nombre es obligatorio y debe tener al menos 3
+              caracteres</small
+            >
+          </div>
         </div>
 
         <div class="form-group">
@@ -72,6 +99,14 @@
             placeholder=" "
           />
           <label for="register-email">Correo Electrónico</label>
+          <div
+            *ngIf="
+              registerForm.get('email')?.invalid &&
+              registerForm.get('email')?.touched
+            "
+          >
+            <small>Introduce un correo válido</small>
+          </div>
         </div>
 
         <div class="form-group password-container">
@@ -87,6 +122,14 @@
             {{ showPassword ? "visibility_off" : "visibility" }}
           </span>
         </div>
+        <div
+          *ngIf="
+            registerForm.get('password')?.invalid &&
+            registerForm.get('password')?.touched
+          "
+        >
+          <small>La contraseña debe tener al menos 6 caracteres</small>
+        </div>
 
         <div class="form-group password-container">
           <input
@@ -101,16 +144,28 @@
             {{ showPassword ? "visibility_off" : "visibility" }}
           </span>
         </div>
+        <div
+          *ngIf="
+            registerForm.hasError('passwordMismatch') &&
+            registerForm.get('confirmPassword')?.touched
+          "
+        >
+          <small>Las contraseñas no coinciden</small>
+        </div>
+
         <!-- CAPTCHA -->
         <ngx-recaptcha2
           [siteKey]="'6LerxvcqAAAAAE23WZewOU9rLLBdCuIH28dF_XwU'"
           [useGlobalDomain]="false"
           formControlName="recaptcha"
         ></ngx-recaptcha2>
-        <button type="submit">Registrarse</button>
+        <button type="submit" [disabled]="registerForm.invalid">
+          Registrarse
+        </button>
       </form>
     </div>
 
+    <!-- TOGGLES -->
     <!-- Panel de Alternancia -->
     <div class="toggle-container">
       <div class="toggle">

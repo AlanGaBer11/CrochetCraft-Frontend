@@ -18,9 +18,9 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
   position: relative;
   overflow: hidden;
-  width: 768px;
+  width: 770px;
   max-width: 100%;
-  min-height: 600px;
+  min-height: 645px;
   margin: 0 auto;
 }
 
@@ -50,6 +50,13 @@ span {
   }
 }
 
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
+
 .form-group {
   position: relative;
   width: 100%;
@@ -77,6 +84,11 @@ span {
   transition: all 0.3s ease;
   background-color: var(--color-light);
   padding: 0 5px;
+}
+
+small {
+  color: red;
+  text-align: center;
 }
 
 .form-group input:focus,

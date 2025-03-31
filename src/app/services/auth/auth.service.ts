@@ -1,56 +1,108 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
+import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly apiUrl = 'https://localhost:3000/api/auth';
-
   constructor(
     private readonly http: HttpClient,
-    private readonly cookies: CookieService
+    private readonly cookieService: CookieService
   ) {}
 
-  // REGISTRAR USUARIO
+  // MÉTODO PARA REGISTRAR UN NUEVO USUARIO
   register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
+    return this.http.post(`${environment.apiUrl}/auth/register`, user);
   }
 
-  // LOGEAR USUARIO
+  // MÉTODO PARA INICIAR SESIÓN
   login(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, user);
+    return this.http.post(`${environment.apiUrl}/auth/login`, user);
   }
 
-  // ESTABLECER TOKEN
-  setToken(token: String) {
-    this.cookies.set('token', token);
+  // GUARDA EL TOKEN EN LA COOKIE
+  saveToken(token: string, userData?: any): void {
+    this.cookieService.set('token', token, { expires: 1, path: '/' });
+    if (userData) {
+      this.cookieService.set('userData', JSON.stringify(userData), {
+        expires: 1,
+        path: '/',
+      });
+    }
   }
 
-  // OBTENER TOKEN
-  getToken() {
-    return this.cookies.get('token');
+  // VERIFICA SI EL USUARIO ESTÁ AUTENTICADO
+  isAuthenticated(): boolean {
+    return this.cookieService.check('token'); // Verifica si el token existe
   }
 
-  // ENVIAR CODIGO DE VERIFICACIÓN
+  // CERRAR SESIÓN
+  logout(): void {
+    this.cookieService.delete('token', '/');
+    this.cookieService.delete('userData', '/');
+  }
+
+  // OBTIENE LOS DATOS DEL USUARIO DE LA COOKIE
+  getUserData(): any {
+    try {
+      const token = this.getToken();
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        return decodedToken;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
+
+  // OBTIENE EL NOMBRE DE LA COOKIE
+  getUserName(): string {
+    const userDataStr = this.cookieService.get('userData');
+    if (userDataStr) {
+      try {
+        const userData = JSON.parse(userDataStr);
+        return userData.nombre || '';
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        return '';
+      }
+    }
+    return '';
+  }
+
+  // OBTIENE EL TOKEN DE LA COOKIE
+  getToken(): string {
+    return this.cookieService.get('token');
+  }
+
+  // ENVIAR CÓDIGO DE VERIFICACIÓN
   sendVerificationCode(email: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/send-verification-code`, email);
+    return this.http.post(`${environment.apiUrl}/auth/send-verification-code`, {
+      email,
+    });
   }
 
-  // VERIFICAR CODIGO DE VERIFICACIÓN
+  // VERIFICAR CÓDIGO DE VERIFICACIÓN
   verifyCode(code: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/verify-code`, code);
+    return this.http.post(`${environment.apiUrl}/auth/verify-code`, { code });
   }
 
   // ENVIAR CORREO PARA RESTABLECER CONTRASEÑA
   requestPasswordReset(email: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/request-password-reset`, email);
+    return this.http.post(`${environment.apiUrl}/auth/request-password-reset`, {
+      email,
+    });
   }
 
   // RESTABLECER CONTRASEÑA
   resetPassword(token: string, newPassword: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/reset-password`, {
+    return this.http.post(`${environment.apiUrl}/auth/reset-password`, {
       token,
       newPassword,
     });

@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth/auth.service';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
+import { ToastService } from '../../services/toast/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -10,33 +19,126 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AuthComponent implements OnInit {
   isSignUpMode: boolean = false;
   showPassword: boolean = false;
+  isFormValid: boolean = false;
+  isLoading: boolean = false;
+  //FORMULARIOS
+  registerForm: FormGroup;
+  loginForm: FormGroup;
 
-  //! REMPLAZAR POR LA API DE REGISTER
-  loginGroup: FormGroup = new FormGroup({});
-  registerGroup: FormGroup = new FormGroup({});
+  private passwordMatchValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
 
-  constructor(private fb: FormBuilder) {}
+    if (password?.pristine || confirmPassword?.pristine) {
+      return null;
+    }
 
-  ngOnInit() {
-    this.formLogin();
-    this.formRegister();
+    return password &&
+      confirmPassword &&
+      password.value !== confirmPassword.value
+      ? { passwordMismatch: true }
+      : null;
   }
 
-  formLogin() {
-    this.loginGroup = this.fb.group({
+  constructor(
+    private readonly authService: AuthService,
+    private readonly toastService: ToastService,
+    private readonly fb: FormBuilder,
+    private readonly router: Router
+  ) {
+    this.registerForm = this.fb.group(
+      {
+        nombre: ['', [Validators.required, Validators.minLength(3)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        confirmPassword: ['', [Validators.required]],
+        recaptcha: ['', Validators.required],
+      },
+      { validators: this.passwordMatchValidator }
+    );
+
+    this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      recaptcha: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      /* recaptcha: ['', Validators.required], */
     });
   }
 
-  formRegister() {
-    this.registerGroup = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
-      recaptcha: ['', Validators.required],
+  ngOnInit() {
+    // Monitor login form validity
+    this.loginForm.statusChanges.subscribe((status) => {
+      this.isFormValid = status === 'VALID';
+    });
+  }
+
+  // Método para registrar usuario
+  register() {
+    if (this.registerForm.invalid) {
+      this.toastService.showError(
+        'Por favor, Completa El Formulario Correctamente.'
+      );
+      return;
+    }
+    this.authService.register(this.registerForm.value).subscribe({
+      next: (res) => {
+        this.toastService.showSuccess(
+          'Bienvenido A CrochetCraft, Te Acabas de Registrar Con Exito'
+        );
+        console.log(res); // QUITAR EN PROD
+        this.registerForm.reset();
+      },
+      error: (err) => {
+        this.toastService.showError('Error En El Registro');
+        console.error('Error' + err.error.message); // QUITAR EN PROD
+      },
+    });
+  }
+
+  login() {
+    if (this.loginForm.invalid) {
+      this.toastService.showError(
+        'Por Favor, Ingresa Un Correo Y Contraseña Válidos.'
+      );
+      return;
+    }
+
+    this.isLoading = true;
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (res) => {
+        if (res?.token && res?.user) {
+          this.authService.saveToken(res.token, res.user);
+          this.loginForm.reset();
+          this.toastService.showSuccess(
+            `Bienvenido de nuevo, ${res.user.nombre}`
+          );
+          this.router.navigate(['/inicio']);
+        } else {
+          this.toastService.showError('Respuesta Del Servidor Inválida');
+        }
+      },
+      error: (err) => {
+        // El resto del código de manejo de errores permanece igual
+        if (err.status === 401) {
+          this.toastService.showError(
+            'Correo Electrónico O Contraseña Incorrectos'
+          );
+        } else if (err.status === 404) {
+          this.toastService.showError('El Usuario No Existe');
+        } else {
+          const errorMessage =
+            err.error?.message || 'Error Desconocido El Iniciar Sesión';
+          this.toastService.showError(
+            `Error Al Iniciar Sesión: ${errorMessage}`
+          );
+        }
+        // Reset password field on error
+        this.loginForm.get('password')?.reset();
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
     });
   }
 
