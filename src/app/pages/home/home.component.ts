@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
+import { ReviewService } from '../../services/review/review.service';
 import { ToastService } from '../../services/toast/toast.service';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -10,13 +18,11 @@ import { ToastService } from '../../services/toast/toast.service';
 export class HomeComponent {
   isModalOpen = false;
 
-  constructor(private readonly toast: ToastService) {}
-  showSuccess() {
-    return this.toast.showSuccess('HOLA');
-  }
-  showError() {
-    return this.toast.showError('HOLA SOY UN ERROR PIPIPI');
-  }
+  constructor(
+    private readonly reviewService: ReviewService,
+    private readonly toastService: ToastService,
+    private readonly fb: FormBuilder
+  ) {}
 
   public resenas = [
     {

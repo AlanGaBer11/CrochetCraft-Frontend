@@ -37,13 +37,13 @@ import { CategoriasComponent } from './pages/categorias/categorias.component';
 /* TEST */
 import { Test01Component } from './test/test01/test01.component';
 import { Test02Component } from './test/test02/test02.component';
-import { RosasComponent } from './pages/flores/rosas/rosas.component';
-import { TulipanesComponent } from './pages/flores/tulipanes/tulipanes.component';
-import { GirasolComponent } from './pages/flores/girasol/girasol.component';
-import { CatalogoFloresComponent } from './pages/flores/catalogo-flores/catalogo-flores.component';
+
+/* CATALOGOS */
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
-import { CatalogoAmigurumisComponent } from './pages/amigurumis/catalogo-amigurumis/catalogo-amigurumis.component';
-import { ErrorComponent } from './pages/error/error.component';
+import { CatalogoFloresComponent } from './pages/catalogos/catalogo-flores/catalogo-flores.component';
+import { CatalogoAmigurumisComponent } from './pages/catalogos/catalogo-amigurumis/catalogo-amigurumis.component';
+import { CatalogoLlaverosComponent } from './pages/catalogos/catalogo-llaveros/catalogo-llaveros.component';
+import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-ropa.component';
 
 @NgModule({
   declarations: [
@@ -55,13 +55,11 @@ import { ErrorComponent } from './pages/error/error.component';
     HomeComponent,
     AuthComponent,
     CategoriasComponent,
-    RosasComponent,
-    TulipanesComponent,
-    GirasolComponent,
-    CatalogoFloresComponent,
     CatalogoComponent,
+    CatalogoFloresComponent,
     CatalogoAmigurumisComponent,
-    ErrorComponent,
+    CatalogoLlaverosComponent,
+    CatalogoRopaComponent,
   ],
   imports: [
     BrowserModule,

@@ -89,8 +89,7 @@ ul {
 }
 
 .user {
-  background-color: #000000;
-  left: 10%;
+  margin-left: 30px;
 }
 
 .user li {
@@ -103,6 +102,7 @@ ul {
   left: 50%;
   transform: translateX(-50%);
 }
+
 .buttons {
   display: flex;
   justify-content: center;

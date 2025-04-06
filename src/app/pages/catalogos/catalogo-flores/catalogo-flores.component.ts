@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProductService } from '../../../services/product/product.service';
 
 @Component({
-  selector: 'app-catalogo-amigurumis',
+  selector: 'app-catalogo-flores',
   standalone: false,
-  templateUrl: './catalogo-amigurumis.component.html',
-  styleUrl: './catalogo-amigurumis.component.css',
+  templateUrl: './catalogo-flores.component.html',
+  styleUrl: './catalogo-flores.component.css',
 })
-export class CatalogoAmigurumisComponent implements OnInit {
-  amigurumisProductos: any[] = [];
+export class CatalogoFloresComponent {
+  floresProductos: any[] = [];
   cargando: boolean = true;
   error: string | null = null;
 
@@ -21,10 +21,10 @@ export class CatalogoAmigurumisComponent implements OnInit {
   // OBTENER PRODUCTOS POR CATEGORÍA
   cargaProductos(): void {
     this.cargando = true;
-    this.productService.getProductsByCategory('Amigurumis').subscribe({
+    this.productService.getProductsByCategory('Flores').subscribe({
       next: (respuesta) => {
         if (respuesta.success) {
-          this.amigurumisProductos = respuesta.products;
+          this.floresProductos = respuesta.products;
         } else {
           this.error = 'No se pudieron cargar los productos';
         }

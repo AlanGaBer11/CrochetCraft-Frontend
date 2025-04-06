@@ -7,7 +7,7 @@
 .card-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 100px;
+  gap: 80px;
   max-width: 900px;
   margin: 50px auto;
   padding: 0 20px;
@@ -19,19 +19,25 @@
   border-radius: 15px;
   overflow: hidden;
   width: 100%;
-  height: 100%;
+  height: 80%;
 }
 
 .card-img {
   width: 100%;
-  height: auto;
-  background-color: #d9dce0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .card-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* !CAMBIAR */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
   border-radius: 0;
 }
 

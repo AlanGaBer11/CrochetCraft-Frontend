@@ -8,8 +8,10 @@ import { Test01Component } from './test/test01/test01.component';
 import { Test02Component } from './test/test02/test02.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { CategoriasComponent } from './pages/categorias/categorias.component';
-import { CatalogoFloresComponent } from './pages/flores/catalogo-flores/catalogo-flores.component';
-import { CatalogoAmigurumisComponent } from './pages/amigurumis/catalogo-amigurumis/catalogo-amigurumis.component';
+import { CatalogoFloresComponent } from './pages/catalogos/catalogo-flores/catalogo-flores.component';
+import { CatalogoAmigurumisComponent } from './pages/catalogos/catalogo-amigurumis/catalogo-amigurumis.component';
+import { CatalogoLlaverosComponent } from './pages/catalogos/catalogo-llaveros/catalogo-llaveros.component';
+import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-ropa.component';
 
 const routes: Routes = [
   { path: 'inicio', component: HomeComponent },
@@ -25,10 +27,16 @@ const routes: Routes = [
   { path: 'auth', component: AuthComponent },
   { path: 'flores', component: CatalogoFloresComponent },
   { path: 'amigurumis', component: CatalogoAmigurumisComponent },
+  { path: 'llaveros', component: CatalogoLlaverosComponent },
+  { path: 'ropa', component: CatalogoRopaComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

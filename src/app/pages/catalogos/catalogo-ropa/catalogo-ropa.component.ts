@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProductService } from '../../../services/product/product.service';
 
 @Component({
-  selector: 'app-catalogo-flores',
+  selector: 'app-catalogo-ropa',
   standalone: false,
-  templateUrl: './catalogo-flores.component.html',
-  styleUrl: './catalogo-flores.component.css',
+  templateUrl: './catalogo-ropa.component.html',
+  styleUrl: './catalogo-ropa.component.css',
 })
-export class CatalogoFloresComponent implements OnInit {
-  floresProductos: any[] = [];
+export class CatalogoRopaComponent {
+  ropaProductos: any[] = [];
   cargando: boolean = true;
   error: string | null = null;
 
@@ -24,7 +24,7 @@ export class CatalogoFloresComponent implements OnInit {
     this.productService.getProductsByCategory('Flores').subscribe({
       next: (respuesta) => {
         if (respuesta.success) {
-          this.floresProductos = respuesta.products;
+          this.ropaProductos = respuesta.products;
         } else {
           this.error = 'No se pudieron cargar los productos';
         }

@@ -40,6 +40,21 @@ export class AuthService {
     return this.cookieService.check('token'); // Verifica si el token existe
   }
 
+  // VERIFICA EL ROL DEL USUARIO
+  isAdmin(): boolean {
+    const userDataStr = this.cookieService.get('userData');
+    if (userDataStr) {
+      try {
+        const userData = JSON.parse(userDataStr);
+        return userData.role === 'admin'; // Cambia 'admin' por el rol que desees verificar
+      } catch (error) {
+        console.error('Error al analizar los datos del usuario:', error);
+        return false;
+      }
+    }
+    return false;
+  }
+
   // CERRAR SESIÓN
   logout(): void {
     this.cookieService.delete('token', '/');
@@ -56,7 +71,7 @@ export class AuthService {
       }
       return null;
     } catch (error) {
-      console.error('Error decoding token:', error);
+      console.error('Error decodificando token:', error);
       return null;
     }
   }
@@ -69,7 +84,7 @@ export class AuthService {
         const userData = JSON.parse(userDataStr);
         return userData.nombre || '';
       } catch (error) {
-        console.error('Error parsing user data:', error);
+        console.error('Error al analizar los datos del usuario:', error);
         return '';
       }
     }

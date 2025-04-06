@@ -1,37 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReviewService {
-  private readonly apiUrl = 'http://localhost:3000/api/review';
-
   constructor(private readonly http: HttpClient) {}
 
   // OBTEBNER TODAS LAS RESEÑAS
   getReviews(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/getReviews`);
+    return this.http.get(`${environment.apiUrl}/review/getReviews`);
   }
 
   // OBTENER RESEÑA POR ID
   getReviewById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/getReviewById/${id}`);
+    return this.http.get(`${environment.apiUrl}/review/getReviewById/${id}`);
   }
 
   // CREAR RESEÑA
   createReview(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/createReview`, data);
+    return this.http.post(`${environment.apiUrl}/review/createReview`, data);
   }
 
   // ACTUALIZAR RESENIA
   updateReview(id: string, data: any): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/updateReview/${id}`, data);
+    return this.http.patch(
+      `${environment.apiUrl}/review/updateReview/${id}`,
+      data
+    );
   }
 
   // ELIMINAR RESEÑA
   deleteReview(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/deleteReview/${id}`);
+    return this.http.delete(`${environment.apiUrl}/review/deleteReview/${id}`);
   }
 }

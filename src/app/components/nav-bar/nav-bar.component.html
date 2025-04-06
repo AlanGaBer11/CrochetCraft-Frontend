@@ -34,7 +34,10 @@
 
       <!-- Si está autenticado, muestra el nombre y botón de logout -->
       <li>
-        <button *ngIf="isLoggedIn" type="button">{{ nombre }}</button>
+        <button *ngIf="isLoggedIn" type="button">
+          {{ nombre }}
+          <span class="material-symbols-rounded">arrow_drop_down</span>
+        </button>
         <ul class="user">
           <div class="buttons">
             <li class="sub">
