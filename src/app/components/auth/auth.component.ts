@@ -77,7 +77,7 @@ export class AuthComponent implements OnInit {
   register() {
     if (this.registerForm.invalid) {
       this.toastService.showError(
-        'Por favor, Completa El Formulario Correctamente.'
+        'Por Favor, Completa El Formulario Correctamente.'
       );
       return;
     }

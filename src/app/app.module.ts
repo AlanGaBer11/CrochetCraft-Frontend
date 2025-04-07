@@ -8,7 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
+// ANIMACIONES
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
 /* NOTIFICACIONES TOAST */
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
@@ -16,8 +18,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 /* reCAPTCHA */
 import { NgxCaptchaModule } from 'ngx-captcha';
@@ -78,6 +81,11 @@ import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-
     provideHotToastConfig(),
     provideRouter([], withViewTransitions()),
     CookieService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

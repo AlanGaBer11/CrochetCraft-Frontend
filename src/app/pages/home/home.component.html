@@ -16,30 +16,15 @@
   </div>
 
   <swiper-container
-    class="mySwiper"
+    class="image-swiper"
     pagination="true"
     navigation="true"
     space-between="30"
     autoplay-delay="2000"
   >
-    <swiper-slide>
+    <swiper-slide class="image-slide" *ngFor="let image of images">
       <div class="image-container">
-        <img src="assets/img/amigurumis/vaca2.webp" alt="Amigurumi Vaca" />
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div class="image-container">
-        <img src="assets/img/flores/rosa2.webp" alt="Rosa de Crochet" />
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div class="image-container">
-        <img src="assets/img/llaveros/llaveroGorra2.jpg" alt="Llavero Gorra" />
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div class="image-container">
-        <img src="assets/img/amigurumis/kitty1.webp" alt="Amigurumi Kitty" />
+        <img [src]="image.image" [alt]="image.nombre" />
       </div>
     </swiper-slide>
   </swiper-container>
@@ -47,7 +32,7 @@
 <br />
 <br />
 
-<!-- PRODUCTOS -->
+<!-- PRODUCTOS DESTACADOS -->
 <h2 style="text-align: center">Nuestra Colección Única</h2>
 <div class="coleccion-container">
   <div class="img1"></div>
@@ -72,18 +57,51 @@
 </div>
 <br />
 
-<!--! MODIFICAR POR LA API DE RESEÑAS -->
+<!-- RESEÑAS -->
 <div class="resenas-container">
-  <div class="card" *ngFor="let resena of resenas">
-    <div class="card-header">
-      <img src="assets/img/3.jpeg" alt="" />
-    </div>
-    <div class="card-body">
-      <p>{{ resena.comentario }}</p>
-      <h4>-{{ resena.nombre }}</h4>
-    </div>
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="loading">
+    <p>Cargando reseñas...</p>
   </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Carrusel de reseñas -->
+  <swiper-container
+    *ngIf="!cargando && !error"
+    class="swiper-resenas"
+    pagination="true"
+    pagination-clickable="true"
+    slides-per-view="3"
+    navigation="true"
+    autoplay-delay="4000"
+    loop="true"
+  >
+    <swiper-slide *ngFor="let resena of reviews" class="slide-resenas">
+      <div class="card">
+        <div class="card-header">
+          <img src="assets/img/logo.png" alt="" />
+          <h4>{{ resena.nombreUsuario }}</h4>
+        </div>
+        <div class="card-body">
+          <p><strong>Producto: </strong>{{ resena.nombreProducto }}</p>
+          <p>{{ resena.comentario }}</p>
+          <div class="rating">
+            <span
+              class="material-symbols-rounded"
+              *ngFor="let star of [].constructor(resena.calificacion)"
+              >star</span
+            >
+          </div>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
 </div>
+
 <br />
 
 <div class="btn-resena">
@@ -91,16 +109,19 @@
     Nos gustaría conocer tu opinion <br />
     de nuestros productos
   </h2>
-  <button type="button" (click)="openModal()" popovertarget="modal">
-    Agregar
+  <button *ngIf="isUserAuthenticated()" type="button" (click)="openModal()">
+    Agregar Reseña
+  </button>
+  <button *ngIf="!isUserAuthenticated()" type="button" routerLink="/auth">
+    Inicia Sesión para Agregar Reseña
   </button>
 </div>
 
-<!-- Modal -->
+<!-- MODAL PARA AGREGAR REVIEW-->
 <div
   class="modal-overlay"
   [class.show]="isModalOpen"
-  (keydown)="closeModal()"
+  (keydown.escape)="closeModal()"
   (click)="closeModalOnOverlay($event)"
 >
   <div class="modal-container">
@@ -111,34 +132,80 @@
       </button>
     </div>
     <div class="modal-body">
-      <form>
+      <form [formGroup]="reviewForm" (ngSubmit)="createReview()">
         <div class="form-group">
-          <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" placeholder="Tu nombre" />
+          <label for="nombre">Nombre del Producto</label>
+          <select id="nombre" formControlName="nombre" required>
+            <option value="" disabled selected>Selecciona un producto</option>
+            <option *ngIf="loadingProducts" value="" disabled>
+              Cargando productos...
+            </option>
+            <option *ngFor="let product of products" [value]="product.nombre">
+              {{ product.nombre }} ({{ product.categoria }})
+            </option>
+          </select>
+          <div
+            *ngIf="
+              reviewForm.get('nombre')?.invalid &&
+              reviewForm.get('nombre')?.touched
+            "
+            class="error-message"
+          >
+            Por favor selecciona un producto
+          </div>
         </div>
         <div class="form-group">
           <label for="comentario">Comentario</label>
           <textarea
             id="comentario"
-            rows="4"
+            rows="3"
             placeholder="Comparte tu experiencia con nuestros productos"
+            formControlName="comentario"
+            required
           ></textarea>
+          <div
+            *ngIf="
+              reviewForm.get('comentario')?.invalid &&
+              reviewForm.get('comentario')?.touched
+            "
+            class="error-message"
+          >
+            Por favor ingresa tu comentario
+          </div>
         </div>
         <div class="form-group">
           <label for="rating">Calificación</label>
-          <select id="rating">
+          <select id="rating" formControlName="calificacion" required>
+            <option value="" disabled selected>
+              Selecciona una calificación
+            </option>
             <option value="5">5 estrellas</option>
             <option value="4">4 estrellas</option>
             <option value="3">3 estrellas</option>
             <option value="2">2 estrellas</option>
             <option value="1">1 estrella</option>
           </select>
+          <div
+            *ngIf="
+              reviewForm.get('calificacion')?.invalid &&
+              reviewForm.get('calificacion')?.touched
+            "
+            class="error-message"
+          >
+            Por favor selecciona una calificación
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="cancel-btn" (click)="closeModal()">Cancelar</button>
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="reviewForm.invalid"
+          >
+            Enviar
+          </button>
         </div>
       </form>
-    </div>
-    <div class="modal-footer">
-      <button class="cancel-btn" (click)="closeModal()">Cancelar</button>
-      <button class="submit-btn">Enviar</button>
     </div>
   </div>
 </div>
@@ -153,13 +220,13 @@
       CrochetCraft!!
     </h1>
     <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, velit
-      similique? Error voluptates odio saepe, soluta nulla modi itaque nobis
-      iure doloremque temporibus eveniet dolores laudantium possimus at quod
-      unde.
+      "¡Desata tu creatividad con los mejores materiales! En
+      <strong>CrochetCraft</strong>
+      encontrarás hilos premium, agujas ergonómicas y kits especiales para tus
+      proyectos. ¡Todo en un solo lugar!
     </p>
   </div>
-  <button type="button" routerLink="auth">Regístrate</button>
+  <button type="button" routerLink="/auth">Regístrate</button>
 </div>
 <br />
 

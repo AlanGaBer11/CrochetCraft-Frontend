@@ -9,12 +9,12 @@ import { Observable } from 'rxjs';
 export class ReviewService {
   constructor(private readonly http: HttpClient) {}
 
-  // OBTEBNER TODAS LAS RESEÑAS
+  // OBTENER TODAS LAS RESEÑAS
   getReviews(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/review/getReviews`);
   }
 
-  // OBTENER RESEÑA POR ID
+  // OBTENER RESEÑA POR ID DE USUARIO
   getReviewById(id: string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/review/getReviewById/${id}`);
   }
@@ -24,7 +24,7 @@ export class ReviewService {
     return this.http.post(`${environment.apiUrl}/review/createReview`, data);
   }
 
-  // ACTUALIZAR RESENIA
+  // ACTUALIZAR RESEÑA
   updateReview(id: string, data: any): Observable<any> {
     return this.http.patch(
       `${environment.apiUrl}/review/updateReview/${id}`,
