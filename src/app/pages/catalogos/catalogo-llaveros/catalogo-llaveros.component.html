@@ -1,8 +1,7 @@
-<app-nav-bar></app-nav-bar>
 <app-catalogo
   [categoria]="'Llaveros'"
   [products]="llaverosProductos"
   [loading]="cargando"
   [error]="error"
+  (productCreated)="cargaProductos()"
 ></app-catalogo>
-<app-footer></app-footer>

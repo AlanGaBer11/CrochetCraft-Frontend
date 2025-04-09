@@ -21,7 +21,7 @@ export class CatalogoRopaComponent {
   // OBTENER PRODUCTOS POR CATEGORÍA
   cargaProductos(): void {
     this.cargando = true;
-    this.productService.getProductsByCategory('Flores').subscribe({
+    this.productService.getProductsByCategory('Ropa').subscribe({
       next: (respuesta) => {
         if (respuesta.success) {
           this.ropaProductos = respuesta.products;

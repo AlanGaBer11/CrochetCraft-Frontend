@@ -337,6 +337,10 @@ swiper-container {
   border-radius: 4px;
 }
 
+small {
+  color: red;
+}
+
 .form-group textarea {
   resize: vertical;
 }

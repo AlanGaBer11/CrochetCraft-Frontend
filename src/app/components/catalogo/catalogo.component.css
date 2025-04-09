@@ -92,6 +92,13 @@
   flex: 1;
 }
 
+.button {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: 0 30px;
+}
+
 .products-container h1 {
   margin-bottom: 30px;
   text-align: left;
@@ -149,3 +156,129 @@
 .more-btn:hover {
   background-color: var(--color-primary);
 }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container {
+  background-color: var(--color-light);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .modal-container {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--color-primary);
+}
+
+.modal-header h2 {
+  margin: 0 auto;
+  color: var(--color-secondary);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  scale: 1.5;
+  cursor: pointer;
+  color: #888;
+}
+
+.close-btn:hover {
+  color: var(--color-primary);
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  padding: 15px 20px;
+  border-top: 1px solid var(--color-primary);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.modal-footer button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.submit-btn:hover {
+  background-color: var(--color-primary);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 50px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 98%;
+  background-color: var(--color-light);
+  padding: 8px;
+  border: 1px solid var(--color-primary);
+  border-radius: 4px;
+}
+
+small {
+  color: red;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+/* FIN MODAL */

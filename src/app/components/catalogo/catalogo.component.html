@@ -52,6 +52,10 @@
   </div>
 
   <div class="products-container">
+    <div class="button">
+      <button type="submit" (click)="openModal()">Agregar un producto</button>
+    </div>
+
     <h1>{{ categoria }}</h1>
 
     <!-- Loading indicator -->
@@ -63,7 +67,6 @@
     <!-- Error message -->
     <div class="error-container" *ngIf="error">
       <p class="error-message">{{ error }}</p>
-      <!-- <button class="retry-btn" (click)="retryLoading()">Reintentar</button> -->
     </div>
 
     <!-- Products grid -->
@@ -95,6 +98,149 @@
       *ngIf="!cargando && !error && products.length === 0"
     >
       <p>No hay productos disponibles en esta categoría.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA AGREGAR UN PRODUCTO -->
+<div
+  class="modal-overlay"
+  [class.show]="isModalOpen"
+  (keydown.escape)="closeModal()"
+  (click)="closeModalOnOverlay($event)"
+>
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>Agregar {{ categoria }}</h2>
+      <button class="close-btn" (click)="closeModal()">
+        <span class="material-symbols-rounded"> close </span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="productForm">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input
+            type="text"
+            id="nombre"
+            formControlName="nombre"
+            required
+            placeholder="Nombre del producto"
+          />
+          <div
+            *ngIf="
+              productForm.get('nombre')?.invalid &&
+              productForm.get('nombre')?.touched
+            "
+          >
+            <small>Por favor ingresa tu comentario</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <textarea
+            id="descripciob"
+            rows="3"
+            placeholder="Descripción del producto"
+            formControlName="descripcion"
+            required
+          ></textarea>
+          <div
+            *ngIf="
+              productForm.get('descripcion')?.invalid &&
+              productForm.get('descripcion')?.touched
+            "
+          >
+            <small>Por favor ingresa tu comentario</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="categoria">Categoría</label>
+          <select id="categoria" formControlName="categoria" required>
+            <option value="" disabled selected>Selecciona una categoría</option>
+            <option value="Flores">Flores</option>
+            <option value="Amigurumis">Amigurumis</option>
+            <option value="Llaveros">Llaveros</option>
+            <option value="Ropa">Ropa</option>
+          </select>
+          <div
+            *ngIf="
+              productForm.get('categoria')?.invalid &&
+              productForm.get('categoria')?.touched
+            "
+          >
+            <small>Por favor ingresa tu comentario</small>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="precio">Precio</label>
+            <input
+              type="number"
+              id="precio"
+              placeholder="Precio $MXN"
+              formControlName="precio"
+              required
+            />
+            <div
+              *ngIf="
+                productForm.get('precio')?.invalid &&
+                productForm.get('precio')?.touched
+              "
+            >
+              <small>Por favor ingresa tu comentario</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="stock">Stock</label>
+            <input
+              type="number"
+              id="stock"
+              placeholder="Stock"
+              formControlName="stock"
+              required
+            />
+            <div
+              *ngIf="
+                productForm.get('stock')?.invalid &&
+                productForm.get('stock')?.touched
+              "
+            >
+              <small>Por favor ingresa tu comentario</small>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="urlImagen">Url Imagen</label>
+          <input
+            type="text"
+            id="urlImagen"
+            placeholder="Url de la imagen del producto"
+            formControlName="urlImagen"
+            required
+          />
+          <div
+            *ngIf="
+              productForm.get('urlImagen')?.invalid &&
+              productForm.get('urlImagen')?.touched
+            "
+          >
+            <small>Por favor ingresa tu comentario</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="cancel-btn" (click)="closeModal()">Cancelar</button>
+          <button
+            type="submit"
+            class="submit-btn"
+            (click)="createProduct()"
+            [disabled]="productForm.invalid"
+          >
+            Enviar
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

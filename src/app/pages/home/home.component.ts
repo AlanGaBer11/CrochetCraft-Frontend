@@ -46,6 +46,7 @@ export class HomeComponent {
     this.getProducts();
   }
 
+  // OBTENER REVIEWS
   getReviews(): void {
     this.cargando = true;
     this.reviewService.getReviews().subscribe({

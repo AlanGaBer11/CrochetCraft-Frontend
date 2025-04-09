@@ -21,7 +21,7 @@ export class CatalogoAmigurumisComponent {
   // OBTENER PRODUCTOS POR CATEGORÍA
   cargaProductos(): void {
     this.cargando = true;
-    this.productService.getProductsByCategory('Flores').subscribe({
+    this.productService.getProductsByCategory('Amigurumis').subscribe({
       next: (respuesta) => {
         if (respuesta.success) {
           this.amigurumisProductos = respuesta.products;

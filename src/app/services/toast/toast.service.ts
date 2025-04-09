@@ -10,25 +10,34 @@ export class ToastService {
   /* MÉTODOS GENÉRICOS */
   showSuccess(mensaje: string) {
     return this.toast.success(mensaje, {
-      duration: 4000,
+      duration: 5000,
+      style: {
+        widht: 'auto',
+      },
     });
   }
 
   showError(mensaje: string) {
     return this.toast.error(mensaje, {
-      duration: 4000,
+      duration: 5000,
+      style: {
+        widht: 'auto',
+      },
     });
   }
 
   showInfo(mensaje: string) {
     return this.toast.info(mensaje, {
-      duration: 3000,
+      duration: 5000,
     });
   }
 
   showWarning(mensaje: string) {
     return this.toast.warning(mensaje, {
-      duration: 4000,
+      duration: 5000,
+      style: {
+        widht: 'auto',
+      },
     });
   }
 

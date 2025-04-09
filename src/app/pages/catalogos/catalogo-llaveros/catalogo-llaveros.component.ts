@@ -20,7 +20,7 @@ export class CatalogoLlaverosComponent {
   // OBTENER PRODUCTOS POR CATEGORÍA
   cargaProductos(): void {
     this.cargando = true;
-    this.productService.getProductsByCategory('Flores').subscribe({
+    this.productService.getProductsByCategory('Llaveros').subscribe({
       next: (respuesta) => {
         if (respuesta.success) {
           this.llaverosProductos = respuesta.products;

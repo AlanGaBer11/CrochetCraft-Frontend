@@ -1,8 +1,9 @@
-<app-nav-bar></app-nav-bar>
 <app-catalogo
   [categoria]="'Amigurumis'"
   [products]="amigurumisProductos"
   [loading]="cargando"
   [error]="error"
-></app-catalogo>
-<app-footer></app-footer>
+  (productCreated)="cargaProductos()"
+>
+  ></app-catalogo
+>

@@ -79,15 +79,15 @@ export class AuthComponent implements OnInit {
       this.toastService.showError(
         'Por Favor, Completa El Formulario Correctamente.'
       );
-      return;
     }
     this.authService.register(this.registerForm.value).subscribe({
       next: (res) => {
-        this.toastService.showSuccess(
-          'Bienvenido A CrochetCraft, Te Acabas de Registrar Con Exito'
-        );
-        console.log(res); // QUITAR EN PROD
-        this.registerForm.reset();
+        if (res.success) {
+          this.toastService.showSuccess(
+            'Bienvenido A CrochetCraft, Te Acabas de Registrar Con Exito'
+          );
+          this.registerForm.reset();
+        }
       },
       error: (err) => {
         this.toastService.showError('Error En El Registro');
