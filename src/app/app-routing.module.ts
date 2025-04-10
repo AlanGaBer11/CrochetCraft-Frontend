@@ -14,6 +14,7 @@ import { CatalogoLlaverosComponent } from './pages/catalogos/catalogo-llaveros/c
 import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-ropa.component';
 import { ProductosComponent } from '../app/pages/productos/productos.component';
 import { ContactoComponent } from './pages/contacto/contacto.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 const routes: Routes = [
   { path: 'inicio', component: HomeComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
 
   { path: 'categorias', component: CategoriasComponent },
   { path: 'contacto', component: ContactoComponent },
+  { path: 'perfil', component: PerfilComponent },
 
   /* PRUEBAS */
   { path: 'test01', component: Test01Component },

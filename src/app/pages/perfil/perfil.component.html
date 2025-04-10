@@ -1,0 +1,75 @@
+<div class="container">
+  <h1>¡Bienvenido!</h1>
+
+  <div class="user-info">
+    <div class="user-avatar">
+      <img src="assets/img/logo.png" alt="Foto de perfil" class="avatar-img" />
+    </div>
+    <div class="user-details">
+      <div class="detail-field">
+        <label for="nombre">Nombre</label>
+        <p id="nombre" class="user-data">{{ nombre || "No disponible" }}</p>
+      </div>
+      <div class="detail-field">
+        <label for="email">Correo</label>
+        <p id="email" class="user-data">{{ email || "No disponible" }}</p>
+      </div>
+      <button class="update-password">Actualizar contraseña</button>
+    </div>
+  </div>
+
+  <div class="purchase-history">
+    <h2>Historial de compras</h2>
+
+    <!-- Loading indicator -->
+    <div *ngIf="loadingOrders" class="loading">
+      <p>Cargando órdenes...</p>
+    </div>
+
+    <!-- Orders list -->
+    <div *ngIf="!loadingOrders && orders.length > 0" class="orders-list">
+      <div class="order-item" *ngFor="let order of orders">
+        <div class="order-header">
+          <div>
+            <span class="order-id">Orden #{{ order._id }}</span>
+            <span class="order-date">{{
+              order.createdAt | date : "dd/MM/yyyy"
+            }}</span>
+          </div>
+          <div class="order-controls">
+            <span class="order-status">{{ order.status }}</span>
+            <button (click)="toggleDetails(order._id)">
+              {{ isExpanded(order._id) ? "Ocultar detalles" : "Más detalles" }}
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="isExpanded(order._id)">
+          <div class="order-products">
+            <div class="product" *ngFor="let item of order.items">
+              <div class="product-info">
+                <strong>{{ item.nombre }}</strong>
+                <span>Categoría: {{ item.categoria }}</span>
+                <span>Cantidad: {{ item.cantidad }}</span>
+                <span>Precio Unitario: ${{ item.precio }}</span>
+              </div>
+              <div class="product-price">
+                <span class="subtotal">Subtotal: ${{ item.subtotal }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-footer">
+            <span class="payment-method">Pago: {{ order.metodoPago }}</span>
+            <span class="order-total">Total: ${{ order.precioTotal }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!loadingOrders && orders.length === 0" class="history-empty">
+      <p>No hay compras registradas</p>
+    </div>
+  </div>
+</div>

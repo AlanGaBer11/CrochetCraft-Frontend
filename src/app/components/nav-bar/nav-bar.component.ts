@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
-import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -14,10 +13,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   nombre: string | null = null;
   private authSubscription!: Subscription;
 
-  constructor(
-    private readonly authService: AuthService,
-    private readonly cookieService: CookieService
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   ngOnInit(): void {
     this.checkAuthentication();
@@ -51,7 +47,5 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   logout(): void {
     this.authService.logout();
-    // No necesitamos actualizar isLoggedIn y nombre aquí
-    // porque la suscripción al observable lo hará automáticamente
   }
 }

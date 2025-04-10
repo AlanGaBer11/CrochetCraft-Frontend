@@ -49,6 +49,7 @@ import { CatalogoLlaverosComponent } from './pages/catalogos/catalogo-llaveros/c
 import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-ropa.component';
 import { ProductosComponent } from './pages/productos/productos.component';
 import { ContactoComponent } from './pages/contacto/contacto.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { ContactoComponent } from './pages/contacto/contacto.component';
     CatalogoRopaComponent,
     ProductosComponent,
     ContactoComponent,
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,
