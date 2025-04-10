@@ -14,9 +14,19 @@ export class ReviewService {
     return this.http.get(`${environment.apiUrl}/review/getReviews`);
   }
 
-  // OBTENER RESEÑA POR ID DE USUARIO
-  getReviewById(id: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/review/getReviewById/${id}`);
+  // OBTENER RESEÑAS POR ID DE PRODUCTO
+  getReviewsByProductId(productId: string): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/review/getReviewsByProductId/${productId}`
+    );
+  }
+
+  // OBTENER RESEÑAS POR NOMBRE DE PRODUCTO
+  getReviewsByProductName(nombreProducto: string): Observable<any> {
+    const encodedName = encodeURIComponent(nombreProducto);
+    return this.http.get(
+      `${environment.apiUrl}/review/getReviewsByProductName/${encodedName}`
+    );
   }
 
   // CREAR RESEÑA

@@ -1,0 +1,166 @@
+<div class="container">
+  <!-- Navegación -->
+  <div class="breadcrumb">
+    <a routerLink="/">Inicio</a> >
+    <!-- Mostrar la categoría si está disponible -->
+    <a *ngIf="nombre" [routerLink]="['/' + categoria.toLowerCase()]">{{
+      categoria
+    }}</a>
+    >
+    <strong>{{ nombre }}</strong>
+  </div>
+
+  <!-- Loading indicator -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Cargando producto...</p>
+  </div>
+
+  <!-- Error message -->
+  <div class="error-container" *ngIf="error">
+    <p class="error-message">{{ error }}</p>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="product-container" *ngIf="!isLoading && !error">
+    <div class="product-images">
+      <img [src]="urlImagen" [alt]="nombre" />
+    </div>
+    <div class="product-details">
+      <h1>{{ nombre }}</h1>
+      <!-- Calificación promedio -->
+      <div class="rating-container">
+        <div class="stars">
+          <span
+            class="material-symbols-rounded"
+            *ngFor="let star of getStars(calculateAverageRating())"
+          >
+            star
+          </span>
+          <span
+            class="material-symbols-rounded"
+            *ngFor="let emptyStar of getStars(5 - calculateAverageRating())"
+          >
+            star_outline
+          </span>
+        </div>
+        <span class="average-rating" *ngIf="reviews.length > 0">
+          {{ calculateAverageRating() }} ({{ reviews.length }}
+          {{ reviews.length === 1 ? "opinión" : "opiniones" }})
+        </span>
+        <span class="no-ratings" *ngIf="reviews.length === 0"
+          >Sin calificaciones</span
+        >
+      </div>
+      <p>{{ descripcion }}</p>
+      <h2 class="price">${{ precio }} MXN</h2>
+      <p>Stock disponible: {{ stock }}</p>
+      <button class="add-to-cart">
+        <span class="material-symbols-rounded"> add_shopping_cart </span>Agregar
+        al carrito
+      </button>
+    </div>
+  </div>
+
+  <!-- Sección de opiniones -->
+  <div class="reviews">
+    <h2>¿Y tú qué opinas?</h2>
+    <button *ngIf="isUserAuthenticated()" type="button" (click)="openModal()">
+      Escribir mi opinion
+    </button>
+    <button *ngIf="!isUserAuthenticated()" type="button" routerLink="/auth">
+      Inicia Sesión para escribir tu opinion
+    </button>
+
+    <!-- Mensaje cuando no hay reseñas -->
+    <div *ngIf="reviews.length === 0" class="no-reviews">
+      <p>No hay opiniones para este producto. ¡Sé el primero en opinar!</p>
+    </div>
+
+    <!-- Reseñas existentes -->
+    <div *ngFor="let review of reviews" class="user-review">
+      <div class="left">
+        <h4 class="user-name">{{ review.userId?.nombre || "Usuario" }}</h4>
+        <div class="stars">
+          <span
+            class="material-symbols-rounded"
+            *ngFor="let star of getStars(review.items[0].calificacion)"
+          >
+            star
+          </span>
+        </div>
+      </div>
+      <div class="right">
+        <p>{{ review.items[0].comentario }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL -->
+<div
+  class="modal-overlay"
+  [class.show]="isModalOpen"
+  (keydown.escape)="closeModal()"
+  (click)="closeModalOnOverlay($event)"
+>
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>Escribir opinión sobre "{{ nombre }}"</h2>
+      <button class="close-btn" (click)="closeModal()">
+        <span class="material-symbols-rounded"> close </span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="reviewForm" (ngSubmit)="createReview()">
+        <div class="form-group">
+          <label for="calificacion">Calificación</label>
+          <select id="calificacion" formControlName="calificacion">
+            <option [value]="0" disabled>Seleccione una calificación</option>
+            <option [value]="1">1 estrella</option>
+            <option [value]="2">2 estrellas</option>
+            <option [value]="3">3 estrellas</option>
+            <option [value]="4">4 estrellas</option>
+            <option [value]="5">5 estrellas</option>
+          </select>
+          <div
+            *ngIf="
+              reviewForm.get('calificacion')?.invalid &&
+              reviewForm.get('calificacion')?.touched
+            "
+          >
+            <small>Por favor selecciona una calificación</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="comentario">Tu opinión</label>
+          <textarea
+            id="comentario"
+            formControlName="comentario"
+            rows="4"
+            placeholder="Comparte tu experiencia con este producto..."
+          ></textarea>
+          <div
+            *ngIf="
+              reviewForm.get('comentario')?.invalid &&
+              reviewForm.get('comentario')?.touched
+            "
+          >
+            <small>Por favor ingresa tu comentario</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="cancel-btn" (click)="closeModal()">
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="reviewForm.invalid"
+          >
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

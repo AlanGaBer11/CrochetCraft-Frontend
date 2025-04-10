@@ -93,7 +93,18 @@ export class CatalogoComponent {
       this.closeModal();
     }
   }
+
   formatPrice(price: number): string {
     return `$${price} MXN`;
+  }
+
+  // COMPROBAR SI EL USUARIO ESTA LOGEADO Y SI ES ADMIN
+  isAdmin(): boolean {
+    return this.authService.isAuthenticated() && this.authService.isAdmin();
+  }
+
+  // COMPROBAR SI EL USUARIO ESTA LOGEADO
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 }

@@ -47,6 +47,7 @@ import { CatalogoFloresComponent } from './pages/catalogos/catalogo-flores/catal
 import { CatalogoAmigurumisComponent } from './pages/catalogos/catalogo-amigurumis/catalogo-amigurumis.component';
 import { CatalogoLlaverosComponent } from './pages/catalogos/catalogo-llaveros/catalogo-llaveros.component';
 import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-ropa.component';
+import { ProductoComponent } from './components/producto/producto.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-
     CatalogoAmigurumisComponent,
     CatalogoLlaverosComponent,
     CatalogoRopaComponent,
+    ProductoComponent,
   ],
   imports: [
     BrowserModule,

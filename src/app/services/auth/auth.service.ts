@@ -3,16 +3,23 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  // Inicializar con un valor por defecto (false) en lugar de llamar a this.isAuthenticated()
+  private readonly authStatusSubject = new BehaviorSubject<boolean>(false);
+  public authStatus$ = this.authStatusSubject.asObservable();
+
   constructor(
     private readonly http: HttpClient,
     private readonly cookieService: CookieService
-  ) {}
+  ) {
+    // Actualizar el estado de autenticación después de que las dependencias estén disponibles
+    this.authStatusSubject.next(this.isAuthenticated());
+  }
 
   // MÉTODO PARA REGISTRAR UN NUEVO USUARIO
   register(user: any): Observable<any> {
@@ -33,6 +40,8 @@ export class AuthService {
         path: '/',
       });
     }
+    // Notificar a los componentes que el estado de autenticación ha cambiado
+    this.authStatusSubject.next(true);
   }
 
   // VERIFICA SI EL USUARIO ESTÁ AUTENTICADO
@@ -46,7 +55,22 @@ export class AuthService {
     if (userDataStr) {
       try {
         const userData = JSON.parse(userDataStr);
-        return userData.role === 'admin'; // Cambia 'admin' por el rol que desees verificar
+        return userData.rol === 'ADMIN';
+      } catch (error) {
+        console.error('Error al analizar los datos del usuario:', error);
+        return false;
+      }
+    }
+    return false;
+  }
+
+  // VERIFICA SI EL USUARIO TIENE UN ROL ESPECÍFICO
+  hasRole(role: string): boolean {
+    const userDataStr = this.cookieService.get('userData');
+    if (userDataStr) {
+      try {
+        const userData = JSON.parse(userDataStr);
+        return userData.rol === role;
       } catch (error) {
         console.error('Error al analizar los datos del usuario:', error);
         return false;
@@ -59,6 +83,8 @@ export class AuthService {
   logout(): void {
     this.cookieService.delete('token', '/');
     this.cookieService.delete('userData', '/');
+    // Notificar a los componentes que el estado de autenticación ha cambiado
+    this.authStatusSubject.next(false);
   }
 
   // OBTIENE LOS DATOS DEL USUARIO DE LA COOKIE

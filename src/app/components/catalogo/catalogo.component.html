@@ -52,7 +52,7 @@
   </div>
 
   <div class="products-container">
-    <div class="button">
+    <div class="button" *ngIf="isAdmin()">
       <button type="submit" (click)="openModal()">Agregar un producto</button>
     </div>
 
@@ -76,7 +76,7 @@
     >
       <div class="product-card" *ngFor="let producto of products">
         <div class="product-img">
-          <img [src]="producto.urlImagenes" [alt]="producto.nombre" />
+          <img [src]="producto.urlImagen" [alt]="producto.nombre" />
         </div>
         <div class="product-details">
           <h2>{{ producto.nombre }}</h2>
@@ -84,7 +84,10 @@
           <button
             type="button"
             class="more-btn"
-            [routerLink]="['/producto', producto._id]"
+            [routerLink]="[
+              '/' + producto.categoria.toLowerCase(),
+              producto.nombre
+            ]"
           >
             Saber más
           </button>

@@ -10,7 +10,7 @@ export class ToastService {
   /* MÉTODOS GENÉRICOS */
   showSuccess(mensaje: string) {
     return this.toast.success(mensaje, {
-      duration: 5000,
+      duration: 4000,
       style: {
         widht: 'auto',
       },
@@ -19,7 +19,7 @@ export class ToastService {
 
   showError(mensaje: string) {
     return this.toast.error(mensaje, {
-      duration: 5000,
+      duration: 4000,
       style: {
         widht: 'auto',
       },
@@ -28,13 +28,13 @@ export class ToastService {
 
   showInfo(mensaje: string) {
     return this.toast.info(mensaje, {
-      duration: 5000,
+      duration: 4000,
     });
   }
 
   showWarning(mensaje: string) {
     return this.toast.warning(mensaje, {
-      duration: 5000,
+      duration: 4000,
       style: {
         widht: 'auto',
       },

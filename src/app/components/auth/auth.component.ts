@@ -62,7 +62,6 @@ export class AuthComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      /* recaptcha: ['', Validators.required], */
     });
   }
 
@@ -87,6 +86,10 @@ export class AuthComponent implements OnInit {
             'Bienvenido A CrochetCraft, Te Acabas de Registrar Con Exito'
           );
           this.registerForm.reset();
+          // CAMBIA AL FORMULARIO DE LOGIN
+          this.isSignUpMode = false;
+          // LLENAR EL EMAIL EN LOGIN
+          this.loginForm.patchValue({ email: this.registerForm.value });
         }
       },
       error: (err) => {

@@ -19,6 +19,15 @@ export class ProductService {
     return this.http.get(`${environment.apiUrl}/product/getProductById/${id}`);
   }
 
+  // OBTENER PRODUCTO POR SU NOMBRE
+  getProductByName(nombre: string): Observable<any> {
+    // Codifica el nombre del producto para URL
+    const encodedName = encodeURIComponent(nombre);
+    return this.http.get(
+      `${environment.apiUrl}/product/getProductByName/${encodedName}`
+    );
+  }
+
   // OBTENER LOS PRODUCTOS POR CATEGORIA
   getProductsByCategory(categoria: string): Observable<any> {
     return this.http.get(

@@ -143,6 +143,10 @@ button {
   transition: background-color 0.3s;
 }
 
+button:hover {
+  background-color: var(--color-primary);
+}
+
 /* ANIMACIÓN ENTRE PÁGINAS */
 ::view-transition-old(root) {
   animation: exit 2s ease 0s 1 normal forwards;

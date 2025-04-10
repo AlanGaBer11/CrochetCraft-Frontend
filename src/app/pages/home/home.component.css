@@ -313,10 +313,6 @@ swiper-container {
   color: #333;
 }
 
-.submit-btn:hover {
-  background-color: var(--color-primary);
-}
-
 .form-group {
   margin-bottom: 15px;
 }

@@ -31,7 +31,7 @@ ul {
 
 .links {
   list-style: none;
-  margin: 0 90px 0 auto;
+  margin: 0 0 0 auto;
   padding: 0;
   width: auto;
   display: flex;
@@ -113,4 +113,14 @@ ul {
   flex-direction: column;
   width: 100%;
   padding: 8px;
+}
+
+button {
+  display: flex !important;
+  align-items: center;
+}
+
+button .material-symbols-rounded {
+  display: flex;
+  justify-content: end;
 }
