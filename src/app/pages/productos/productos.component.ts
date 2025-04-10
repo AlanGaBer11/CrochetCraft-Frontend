@@ -4,15 +4,15 @@ import { AuthService } from '../../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product/product.service';
-import { ReviewService } from '../../services/review/review.service'; // Agregar esta importación
+import { ReviewService } from '../../services/review/review.service';
 
 @Component({
-  selector: 'app-producto',
+  selector: 'app-productos',
   standalone: false,
-  templateUrl: './producto.component.html',
-  styleUrl: './producto.component.css',
+  templateUrl: './productos.component.html',
+  styleUrl: './productos.component.css',
 })
-export class ProductoComponent implements OnInit {
+export class ProductosComponent implements OnInit {
   isModalOpen = false;
   reviewForm: FormGroup;
   isLoading = true;
