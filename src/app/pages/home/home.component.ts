@@ -110,31 +110,40 @@ export class HomeComponent {
       return;
     }
 
-    this.reviewService.createReview(this.reviewForm.value).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.toastService.showSuccess('Reseña Creada Con Éxito');
-          this.reviewForm.reset();
-          this.closeModal();
-          this.getReviews();
-        } else {
-          this.toastService.showError('No Se Pudo Crear La Reseña');
-        }
-      },
-      error: (err) => {
-        console.error('Error al crear la reseña: ', err);
-        // Verificar si es un error de autenticación
-        if (err.status === 401) {
-          this.toastService.showError(
-            'Tu sesión ha expirado, por favor inicia sesión nuevamente'
-          );
-          this.authService.logout(); // Limpiar los datos de sesión expirados
-          this.router.navigate(['/auth']);
-        } else {
-          this.toastService.showError('Error al conectar con el servidor');
-        }
-      },
-    });
+    this.reviewService
+      .createReview(this.reviewForm.value)
+      .pipe(
+        this.toastService.observe({
+          loading: 'Creando Reseña...',
+          success: 'Reseña Creada Con Éxito',
+          error: 'No Se Pudo Crear La Reseña',
+          delayMs: 2000,
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          if (res.success) {
+            this.reviewForm.reset();
+            this.closeModal();
+            this.getReviews();
+          } else {
+            this.toastService.showError('No Se Pudo Crear La Reseña');
+          }
+        },
+        error: (err) => {
+          console.error('Error al crear la reseña: ', err);
+          // Verificar si es un error de autenticación
+          if (err.status === 401) {
+            this.toastService.showError(
+              'Tu sesión ha expirado, por favor inicia sesión nuevamente'
+            );
+            this.authService.logout(); // Limpiar los datos de sesión expirados
+            this.router.navigate(['/auth']);
+          } else {
+            this.toastService.showError('Error al conectar con el servidor');
+          }
+        },
+      });
   }
 
   images = [

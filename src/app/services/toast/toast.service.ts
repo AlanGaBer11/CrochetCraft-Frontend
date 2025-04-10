@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
+import { delay, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,10 @@ export class ToastService {
   showSuccess(mensaje: string) {
     return this.toast.success(mensaje, {
       duration: 4000,
+      autoClose: false,
+      dismissible: true,
       style: {
-        widht: 'auto',
+        textAlign: 'center',
       },
     });
   }
@@ -20,8 +23,10 @@ export class ToastService {
   showError(mensaje: string) {
     return this.toast.error(mensaje, {
       duration: 4000,
+      autoClose: false,
+      dismissible: true,
       style: {
-        widht: 'auto',
+        textAlign: 'center',
       },
     });
   }
@@ -29,14 +34,21 @@ export class ToastService {
   showInfo(mensaje: string) {
     return this.toast.info(mensaje, {
       duration: 4000,
+      autoClose: false,
+      dismissible: true,
+      style: {
+        textAlign: 'center',
+      },
     });
   }
 
   showWarning(mensaje: string) {
     return this.toast.warning(mensaje, {
       duration: 4000,
+      autoClose: false,
+      dismissible: true,
       style: {
-        widht: 'auto',
+        textAlign: 'center',
       },
     });
   }
@@ -45,15 +57,21 @@ export class ToastService {
     return this.toast.loading(mensaje);
   }
 
-  // FALTA PROBAR
-  showPromise<T>(
-    promise: Promise<T>,
-    mensajes: { loading?: string; success?: string; error?: string }
-  ) {
-    return this.toast.observe({
-      loading: mensajes.loading ?? 'Cargando...',
-      success: mensajes.success ?? '¡Operación completada!',
-      error: mensajes.error ?? 'Ha ocurrido un error',
-    });
+  // Método mejorado para observar operaciones asíncronas
+  observe<T>(options: {
+    loading?: string;
+    success?: string | ((result: T) => string);
+    error?: string | ((error: any) => string);
+    delayMs?: number;
+  }) {
+    return (source: Observable<T>) =>
+      source.pipe(
+        delay(options.delayMs ?? 2000),
+        this.toast.observe({
+          loading: options.loading ?? 'Cargando...',
+          success: options.success || '¡Operación Completada Con Éxito!',
+          error: options.error || 'Ha Ocurrido Un Error',
+        })
+      );
   }
 }

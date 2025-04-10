@@ -79,24 +79,35 @@ export class AuthComponent implements OnInit {
         'Por Favor, Completa El Formulario Correctamente.'
       );
     }
-    this.authService.register(this.registerForm.value).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.toastService.showSuccess(
-            'Bienvenido A CrochetCraft, Te Acabas de Registrar Con Exito'
-          );
-          this.registerForm.reset();
-          // CAMBIA AL FORMULARIO DE LOGIN
-          this.isSignUpMode = false;
-          // LLENAR EL EMAIL EN LOGIN
-          this.loginForm.patchValue({ email: this.registerForm.value });
-        }
-      },
-      error: (err) => {
-        this.toastService.showError('Error En El Registro');
-        console.error('Error' + err.error.message); // QUITAR EN PROD
-      },
-    });
+    this.authService
+      .register(this.registerForm.value)
+      .pipe(
+        this.toastService.observe({
+          loading: 'Registrando...',
+          success: () =>
+            'Bienvenido A CrochetCraft, Te Acabas de Registrar Con Exito',
+          error: (err) => {
+            if (err.status === 409)
+              return 'El Correo Electrónico Ya Está Registrado';
+            return 'Error En El Servidor. Inténtalo Más Tarde.';
+          },
+          delayMs: 2000,
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          if (res.success) {
+            this.registerForm.reset();
+            // CAMBIA AL FORMULARIO DE LOGIN
+            this.isSignUpMode = false;
+            // LLENAR EL EMAIL EN LOGIN
+            this.loginForm.patchValue({ email: this.registerForm.value });
+          }
+        },
+        error: (err) => {
+          console.error('Error' + err.error.message); // QUITAR EN PROD
+        },
+      });
   }
 
   login() {
@@ -108,41 +119,37 @@ export class AuthComponent implements OnInit {
     }
 
     this.isLoading = true;
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (res) => {
-        if (res?.token && res?.user) {
-          this.authService.saveToken(res.token, res.user);
-          this.loginForm.reset();
-          this.toastService.showSuccess(
-            `Bienvenido de nuevo, ${res.user.nombre}`
-          );
-          this.router.navigate(['/inicio']);
-        } else {
-          this.toastService.showError('Respuesta Del Servidor Inválida');
-        }
-      },
-      error: (err) => {
-        // El resto del código de manejo de errores permanece igual
-        if (err.status === 401) {
-          this.toastService.showError(
-            'Correo Electrónico O Contraseña Incorrectos'
-          );
-        } else if (err.status === 404) {
-          this.toastService.showError('El Usuario No Existe');
-        } else {
-          const errorMessage =
-            err.error?.message || 'Error Desconocido El Iniciar Sesión';
-          this.toastService.showError(
-            `Error Al Iniciar Sesión: ${errorMessage}`
-          );
-        }
-        // Reset password field on error
-        this.loginForm.get('password')?.reset();
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-    });
+    this.authService
+      .login(this.loginForm.value)
+      .pipe(
+        this.toastService.observe({
+          loading: 'Iniciando sesión...',
+          success: (response) => `Bienvenido de nuevo, ${response.user.nombre}`,
+          error: (err) => {
+            if (err.status === 401)
+              return 'Correo Electrónico O Contraseña Incorrectos';
+            if (err.status === 404) return 'El Usuario No Existe';
+            return 'Error En El Servidor. Inténtalo Más Tarde.';
+          },
+          delayMs: 2000,
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          if (res?.token && res?.user) {
+            this.authService.saveToken(res.token, res.user);
+            this.loginForm.reset();
+            this.router.navigate(['/inicio']);
+          }
+        },
+        error: (err) => {
+          // Reset password field on error
+          this.loginForm.get('password')?.reset();
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+      });
   }
 
   toggleForm() {

@@ -47,35 +47,42 @@ export class CatalogoComponent {
       return; // Agregamos un return para evitar continuar con la ejecución
     }
 
-    this.productService.createProduct(this.productForm.value).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.toastService.showSuccess('Producto Creado Con Éxito');
-          this.productForm.reset();
-          this.closeModal();
-          // Emitir evento para que el padre recargue los productos
-          this.productCreated.emit();
-        } else {
-          this.toastService.showError('Error AL Crear El Producto');
-        }
-      },
-      error: (err) => {
-        console.error('Error al crear la reseña: ', err);
-        // Verificar si es un error de autenticación
-        if (err.status === 401) {
-          this.toastService.showError(
-            'Tu sesión ha expirado, por favor inicia sesión nuevamente'
-          );
-          this.authService.logout(); // Limpiar los datos de sesión expirados
-          this.router.navigate(['/auth']);
-        } else {
-          this.toastService.showError('Error al conectar con el servidor');
-        }
-      },
-    });
+    this.productService
+      .createProduct(this.productForm.value)
+      .pipe(
+        this.toastService.observe({
+          success: 'Producto Creado Con Éxito',
+          loading: 'Creando Producto...',
+          error: 'Error Al Crear El Producto',
+          delayMs: 2000,
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          if (res.success) {
+            this.productForm.reset();
+            this.closeModal();
+            // Emitir evento para que el padre recargue los productos
+            this.productCreated.emit();
+          } else {
+            this.toastService.showError('Error AL Crear El Producto');
+          }
+        },
+        error: (err) => {
+          console.error('Error al crear la reseña: ', err);
+          // Verificar si es un error de autenticación
+          if (err.status === 401) {
+            this.toastService.showError(
+              'Tu sesión ha expirado, por favor inicia sesión nuevamente'
+            );
+            this.authService.logout(); // Limpiar los datos de sesión expirados
+            this.router.navigate(['/auth']);
+          } else {
+            this.toastService.showError('Error al conectar con el servidor');
+          }
+        },
+      });
   }
-
-  // OBTENER LOS PRODUCTOS
 
   openModal() {
     this.isModalOpen = true;

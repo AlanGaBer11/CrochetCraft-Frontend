@@ -102,9 +102,7 @@ export class ProductoComponent implements OnInit {
     });
   }
 
-  // MÉTODO PARA CREAR UNA NUEVA REVIEW
-
-  // Método para enviar una nueva reseña
+  // MÉTODO PARA CREAR UNA RESEÑA DE UN PRODUCTO EN ESPECIFICO!
   createReview(): void {
     if (this.reviewForm.invalid) {
       this.toastService.showError('Por Favor Completa Todos Los Campos');
@@ -117,22 +115,28 @@ export class ProductoComponent implements OnInit {
       comentario: this.reviewForm.get('comentario')?.value,
     };
 
-    this.reviewService.createReview(reviewData).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.toastService.showSuccess('Reseña Creada Exitosamente');
-          this.closeModal();
-          // Recargar las reseñas para mostrar la nueva
-          this.loadReviewsByProductName(this.nombre);
-        } else {
-          this.toastService.showError('No Se Pudo Crear La Reseña');
-        }
-      },
-      error: (err) => {
-        this.toastService.showError('Error Al Crear La Reseña: ' + err.message);
-        console.error('Error Al Crear La Reseña:', err);
-      },
-    });
+    this.reviewService
+      .createReview(reviewData)
+      .pipe(
+        this.toastService.observe({
+          loading: 'Creando Reseña...',
+          success: 'Reseña Creada Exitosamente',
+          error: 'No Se Pudo Crear La Reseña',
+          delayMs: 2000,
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.closeModal();
+            // Recargar las reseñas para mostrar la nueva
+            this.loadReviewsByProductName(this.nombre);
+          }
+        },
+        error: (err) => {
+          console.error('Error Al Crear La Reseña:', err);
+        },
+      });
   }
   openModal() {
     // Verificar si el usuario está autenticado antes de abrir el modal
