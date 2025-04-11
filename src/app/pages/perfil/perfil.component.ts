@@ -48,7 +48,6 @@ export class PerfilComponent implements OnInit {
   checkAuthentication(): void {
     this.isLoggedIn = this.authService.isAuthenticated();
     if (this.isLoggedIn) {
-      const userData = this.authService.getUserData();
       const userDataStr = document.cookie
         .split('; ')
         .find((row) => row.startsWith('userData='));

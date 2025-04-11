@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'https://crochetcraft-backend-gqb9a0cydsczb9bx.mexicocentral-01.azurewebsites.net/api',
 };
