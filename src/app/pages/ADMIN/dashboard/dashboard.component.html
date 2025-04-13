@@ -1,0 +1,48 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="material-symbols-rounded icon"> monitoring </span>
+      <span>{{ nombre }}</span>
+    </div>
+    <nav class="menu">
+      <ul>
+        <li
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a [routerLink]="['/dashboard']">
+            <span class="material-symbols-rounded"> home </span>Dashboard
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/dashboard/usuarios']">
+            <span class="material-symbols-rounded"> group </span>Usuarios
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/dashboard/productos']">
+            <span class="material-symbols-rounded"> inventory </span>Productos
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/dashboard/ventas']">
+            <span class="material-symbols-rounded"> orders </span>Ventas
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/dashboard/reseñas']">
+            <span class="material-symbols-rounded"> reviews </span>Reseñas
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

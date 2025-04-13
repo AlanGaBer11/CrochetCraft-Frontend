@@ -52,7 +52,6 @@ export class HomeComponent {
     this.reviewService.getReviews().subscribe({
       next: (res) => {
         if (res.success) {
-          // Aplanar las reseñas desde `items`
           this.reviews = res.reviews.flatMap((review: any) =>
             review.items.map((item: any) => ({
               nombreUsuario: review.userId?.nombre || 'Anónimo',

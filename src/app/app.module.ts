@@ -50,6 +50,11 @@ import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-
 import { ProductosComponent } from './pages/productos/productos.component';
 import { ContactoComponent } from './pages/contacto/contacto.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { DashboardComponent } from './pages/ADMIN/dashboard/dashboard.component';
+import { UsuariosComponent } from './pages/ADMIN/usuarios/usuarios.component';
+import { VentasComponent } from './pages/ADMIN/ventas/ventas.component';
+import { ResenasComponent } from './pages/ADMIN/resenas/resenas.component';
+import { ProductsComponent } from './pages/ADMIN/products/products.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +74,12 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
     ProductosComponent,
     ContactoComponent,
     PerfilComponent,
+    /* COMPONENTES DE ADMIN */
+    DashboardComponent,
+    UsuariosComponent,
+    VentasComponent,
+    ResenasComponent,
+    ProductsComponent,
   ],
   imports: [
     BrowserModule,

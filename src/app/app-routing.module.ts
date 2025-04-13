@@ -15,6 +15,13 @@ import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-
 import { ProductosComponent } from '../app/pages/productos/productos.component';
 import { ContactoComponent } from './pages/contacto/contacto.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+/* ADMIN */
+import { DashboardComponent } from './pages/ADMIN/dashboard/dashboard.component';
+import { UsuariosComponent } from './pages/ADMIN/usuarios/usuarios.component';
+import { ProductsComponent } from './pages/ADMIN/products/products.component';
+import { VentasComponent } from './pages/ADMIN/ventas/ventas.component';
+import { ResenasComponent } from './pages/ADMIN/resenas/resenas.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
   { path: 'inicio', component: HomeComponent },
@@ -41,6 +48,19 @@ const routes: Routes = [
   { path: 'amigurumis/:nombre', component: ProductosComponent },
   { path: 'llaveros/:nombre', component: ProductosComponent },
   { path: 'ropa/:nombre', component: ProductosComponent },
+  /* ADMIN */
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AdminGuard],
+    children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'usuarios', component: UsuariosComponent },
+      { path: 'productos', component: ProductsComponent },
+      { path: 'ventas', component: VentasComponent },
+      { path: 'reseñas', component: ResenasComponent },
+    ],
+  },
 ];
 
 @NgModule({

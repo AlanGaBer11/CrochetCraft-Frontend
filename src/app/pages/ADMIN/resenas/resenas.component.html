@@ -1,0 +1,42 @@
+<div class="reviews-container">
+  <h1>Gestión de Reseñas</h1>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="loading">
+    <p>Cargando reseñas...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Mostrar reseñas agrupadas por categoría -->
+  <div *ngFor="let categoria of categorias">
+    <h2 class="categoria-title">{{ categoria }}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Usuario</th>
+          <th>Calificación</th>
+          <th>Comentario</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let review of resenasPorCategoria[categoria]">
+          <td>{{ review.item.nombre }}</td>
+          <td>{{ review.userId?.nombre || "Anónimo" }}</td>
+          <td>{{ review.item.calificacion }}/5</td>
+          <td>{{ review.item.comentario }}</td>
+          <td>
+            <button class="delete-btn" (click)="deleteResena(review.item._id)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

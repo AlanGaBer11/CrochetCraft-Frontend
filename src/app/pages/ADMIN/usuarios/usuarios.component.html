@@ -1,0 +1,129 @@
+<div class="users-container">
+  <h1>Gestión de Usuarios</h1>
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="loading">
+    <p>Cargando reseñas...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Email</th>
+        <th>Verificado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user._id }}</td>
+        <td>{{ user.nombre }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.verified ? "Sí" : "No" }}</td>
+        <td class="actions">
+          <button class="edit-btn" (click)="openEditModal(user)">Editar</button>
+          <button
+            class="delete-btn"
+            (click)="deleteUser(user._id, user.nombre)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- MODAL PARA EDITAR USUARIO -->
+  <div
+    class="modal-overlay"
+    [class.show]="showEditModal"
+    (keydown.escape)="closeModal()"
+    (click)="closeModalOnOverlay($event)"
+  >
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Editar Usuario</h2>
+        <button class="close-btn" (click)="closeModal()">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editUserForm" (ngSubmit)="submitUpdate()">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input
+              type="text"
+              id="nombre"
+              formControlName="nombre"
+              required
+              placeholder="Nombre del usuario"
+            />
+            <div
+              *ngIf="
+                editUserForm.get('nombre')?.invalid &&
+                editUserForm.get('nombre')?.touched
+              "
+            >
+              <small>Por favor ingresa un nombre</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              required
+              placeholder="correo@ejemplo.com"
+            />
+            <div
+              *ngIf="
+                editUserForm.get('email')?.invalid &&
+                editUserForm.get('email')?.touched
+              "
+            >
+              <small>Por favor ingresa un email válido</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="rol">Rol</label>
+            <select id="rol" formControlName="rol" required>
+              <option value="" disabled>Selecciona un rol</option>
+              <option value="ADMIN">Administrador</option>
+              <option value="CLIENTE">Cliente</option>
+            </select>
+            <div
+              *ngIf="
+                editUserForm.get('rol')?.invalid &&
+                editUserForm.get('rol')?.touched
+              "
+            >
+              <small>Por favor selecciona un rol</small>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="cancel-btn" (click)="closeModal()">
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="submit-btn"
+              [disabled]="editUserForm.invalid"
+            >
+              Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

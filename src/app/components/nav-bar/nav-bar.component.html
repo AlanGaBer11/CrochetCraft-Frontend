@@ -43,6 +43,11 @@
             <li class="sub">
               <button routerLink="/perfil">Perfil</button>
             </li>
+            <li>
+              <div class="button" *ngIf="isAdmin()">
+                <button type="button" routerLink="/dashboard">Dashboard</button>
+              </div>
+            </li>
             <li class="sub">
               <button (click)="logout()">Cerrar Sesión</button>
             </li>

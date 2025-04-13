@@ -1,0 +1,60 @@
+<div class="ventas-container">
+  <div class="purchase-history">
+    <h1>Gestion de Ordenes</h1>
+
+    <!-- Loading indicator -->
+    <div *ngIf="cargando" class="loading">
+      <p>Cargando órdenes...</p>
+    </div>
+
+    <!-- Orders list -->
+    <div *ngIf="!cargando && orders.length > 0" class="orders-list">
+      <div class="order-item" *ngFor="let order of orders">
+        <div class="order-header">
+          <div>
+            <span class="order-id">Orden #{{ order._id }}</span>
+            <span class="order-date">{{
+              order.createdAt | date : "dd/MM/yyyy"
+            }}</span>
+            <span class="order-user"
+              >Cliente:
+              {{ order.userId?.nombre || "Usuario no disponible" }}</span
+            >
+          </div>
+          <div class="order-controls">
+            <span class="order-status">{{ order.status }}</span>
+            <button (click)="toggleDetails(order._id)">
+              {{ isExpanded(order._id) ? "Ocultar detalles" : "Más detalles" }}
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="isExpanded(order._id)">
+          <div class="order-products">
+            <div class="product" *ngFor="let item of order.items">
+              <div class="product-info">
+                <strong>{{ item.nombre }}</strong>
+                <span>Categoría: {{ item.categoria }}</span>
+                <span>Cantidad: {{ item.cantidad }}</span>
+                <span>Precio Unitario: ${{ item.precio }}</span>
+              </div>
+              <div class="product-price">
+                <span class="subtotal">Subtotal: ${{ item.subtotal }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-footer">
+            <span class="payment-method">Pago: {{ order.metodoPago }}</span>
+            <span class="order-total">Total: ${{ order.precioTotal }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!cargando && orders.length === 0" class="history-empty">
+      <p>No hay compras registradas</p>
+    </div>
+  </div>
+</div>

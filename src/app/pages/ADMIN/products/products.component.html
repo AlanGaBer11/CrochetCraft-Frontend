@@ -1,0 +1,206 @@
+<div class="products-container">
+  <h1>Gestión de Productos</h1>
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="loading">
+    <p>Cargando productos...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Categoría</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product._id }}</td>
+        <td>{{ product.nombre }}</td>
+        <td>{{ product.descripcion }}</td>
+        <td>${{ product.precio }}</td>
+        <td>{{ product.stock }}</td>
+        <td>{{ product.categoria }}</td>
+        <td class="image-cell">
+          <img [src]="product.urlImagen" alt="Miniatura" class="thumbnail" />
+          <span class="tooltip">{{ product.urlImagen }}</span>
+        </td>
+
+        <td class="actions">
+          <button class="edit-btn" (click)="openEditModal(product)">
+            Editar
+          </button>
+          <button
+            class="delete-btn"
+            (click)="deleteProduct(product._id, product.nombre)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- MODAL PARA EDITAR PRODUCTO -->
+  <div
+    class="modal-overlay"
+    [class.show]="showEditModal"
+    (keydown.escape)="closeModal()"
+    (click)="closeModalOnOverlay($event)"
+  >
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Editar Producto</h2>
+        <button class="close-btn" (click)="closeModal()">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editProductForm" (ngSubmit)="submitUpdate()">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input
+              type="text"
+              id="nombre"
+              formControlName="nombre"
+              required
+              placeholder="Nombre del producto"
+            />
+            <div
+              *ngIf="
+                editProductForm.get('nombre')?.invalid &&
+                editProductForm.get('nombre')?.touched
+              "
+            >
+              <small>Por favor ingresa un nombre</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea
+              id="descripcion"
+              formControlName="descripcion"
+              required
+              placeholder="Descripción del producto"
+              rows="3"
+            ></textarea>
+            <div
+              *ngIf="
+                editProductForm.get('descripcion')?.invalid &&
+                editProductForm.get('descripcion')?.touched
+              "
+            >
+              <small>La descripción debe tener al menos 10 caracteres</small>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="precio">Precio</label>
+              <input
+                type="number"
+                id="precio"
+                formControlName="precio"
+                required
+                placeholder="0.00"
+                min="0"
+                step="0.01"
+              />
+              <div
+                *ngIf="
+                  editProductForm.get('precio')?.invalid &&
+                  editProductForm.get('precio')?.touched
+                "
+              >
+                <small>Por favor ingresa un precio válido</small>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="stock">Stock</label>
+              <input
+                type="number"
+                id="stock"
+                formControlName="stock"
+                required
+                placeholder="0"
+                min="0"
+                step="1"
+              />
+              <div
+                *ngIf="
+                  editProductForm.get('stock')?.invalid &&
+                  editProductForm.get('stock')?.touched
+                "
+              >
+                <small>Por favor ingresa una cantidad válida</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="categoria">Categoría</label>
+            <select id="categoria" formControlName="categoria" required>
+              <option value="" disabled>Selecciona una categoría</option>
+              <option value="Flores">Flores</option>
+              <option value="Amigurumis">Amigurumis</option>
+              <option value="Llaveros">Llaveros</option>
+              <option value="Ropa">Ropa</option>
+            </select>
+            <div
+              *ngIf="
+                editProductForm.get('categoria')?.invalid &&
+                editProductForm.get('categoria')?.touched
+              "
+            >
+              <small>Por favor selecciona una categoría</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="urlImagen">URL de la imagen</label>
+            <input
+              type="text"
+              id="urlImagen"
+              formControlName="urlImagen"
+              required
+              placeholder="https://ejemplo.com/imagen.jpg"
+            />
+            <div
+              *ngIf="
+                editProductForm.get('urlImagen')?.invalid &&
+                editProductForm.get('urlImagen')?.touched
+              "
+            >
+              <small>Por favor ingresa la URL de una imagen</small>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="cancel-btn" (click)="closeModal()">
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="submit-btn"
+              [disabled]="editProductForm.invalid"
+            >
+              Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

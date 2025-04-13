@@ -14,10 +14,10 @@ export class ReviewService {
     return this.http.get(`${environment.apiUrl}/review/getReviews`);
   }
 
-  // OBTENER RESEÑAS POR ID DE PRODUCTO
-  getReviewsByProductId(productId: string): Observable<any> {
+  // OBTENER RESEÑAS POR CATEGORIA DEL PRODUCTO
+  getReviewsByProductCategory(categoria: string): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/review/getReviewsByProductId/${productId}`
+      `${environment.apiUrl}/review/getReviewsByProductCategory/${categoria}`
     );
   }
 
@@ -44,6 +44,8 @@ export class ReviewService {
 
   // ELIMINAR RESEÑA
   deleteReview(id: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/review/deleteReview/${id}`);
+    return this.http.delete<any>(
+      `${environment.apiUrl}/review/deleteReview/${id}`
+    );
   }
 }
