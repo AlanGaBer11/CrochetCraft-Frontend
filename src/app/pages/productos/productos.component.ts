@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product/product.service';
 import { ReviewService } from '../../services/review/review.service';
+import { CartService } from '../../services/cart/cart.service';
 
 @Component({
   selector: 'app-productos',
@@ -18,6 +19,7 @@ export class ProductosComponent implements OnInit {
   isLoading = true;
   error = '';
   reviews: any[] = [];
+  cantidad: number = 1;
 
   @Input() nombre: string = '';
   @Input() descripcion: string = '';
@@ -31,6 +33,7 @@ export class ProductosComponent implements OnInit {
     private readonly reviewService: ReviewService,
     private readonly toastService: ToastService,
     private readonly authService: AuthService,
+    private readonly cartService: CartService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder
@@ -138,6 +141,55 @@ export class ProductosComponent implements OnInit {
         },
       });
   }
+
+  // MÉTODO PARA AGREGAR AL CARRITO
+  addToCart(): void {
+    // Verificar si el usuario está autenticado
+    if (!this.authService.isAuthenticated()) {
+      this.toastService.showError(
+        'Debes iniciar sesión para agregar productos al carrito'
+      );
+      this.router.navigate(['/auth']);
+      return;
+    }
+
+    // Verificar stock
+    if (this.stock <= 0) {
+      this.toastService.showError('Este producto está agotado');
+      return;
+    }
+
+    const cartData = {
+      items: [
+        {
+          nombre: this.nombre,
+          cantidad: this.cantidad,
+        },
+      ],
+    };
+
+    this.cartService
+      .addToCart(cartData)
+      .pipe(
+        this.toastService.observe({
+          loading: 'Agregando al carrito...',
+          success: '¡Producto agregado al carrito!',
+          error: 'No se pudo agregar el producto al carrito',
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            // El CartService ya notifica a través del BehaviorSubject
+            // No es necesario hacer nada más aquí
+          }
+        },
+        error: (err) => {
+          console.error('Error al agregar al carrito:', err);
+        },
+      });
+  }
+
   openModal() {
     // Verificar si el usuario está autenticado antes de abrir el modal
     if (!this.authService.isAuthenticated()) {

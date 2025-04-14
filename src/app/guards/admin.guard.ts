@@ -26,7 +26,7 @@ export class AdminGuard implements CanActivate {
     }
 
     // If not admin or not authenticated, redirect to login page
-    this.router.navigate(['/auth'], {
+    this.router.navigate(['/pagina403'], {
       queryParams: {
         returnUrl: state.url,
         message: 'Acceso restringido - Se requiere permisos de administrador',

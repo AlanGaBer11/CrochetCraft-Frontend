@@ -1,0 +1,115 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="cart-container">
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="loading">
+    <p>Cargando productos...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Carrito vacío -->
+  <div *ngIf="!cargando && !error && cartItems.length === 0" class="empty-cart">
+    <div class="empty-cart-message">
+      <h2>Tu carrito está vacío</h2>
+      <p>Parece que aún no has añadido productos a tu carrito</p>
+      <button routerLink="/categorias" class="continue-btn">
+        Ir a comprar
+      </button>
+    </div>
+  </div>
+
+  <!-- Contenido del carrito -->
+  <div *ngIf="!cargando && !error && cartItems.length > 0">
+    <header class="cart-header">
+      <h1>
+        <span class="material-symbols-rounded">shopping_cart</span> Mi Carrito
+      </h1>
+      <span class="item-count"
+        >{{ cartItems.length }}
+        {{ cartItems.length === 1 ? "artículo" : "artículos" }}</span
+      >
+      <div class="center">
+        <button class="clear-cart-btn" (click)="clearCart()">
+          <span class="material-symbols-rounded">delete</span> Vaciar carrito
+        </button>
+      </div>
+    </header>
+
+    <main class="cart-content">
+      <div class="cart-items">
+        <!-- PRODUCTOS -->
+        <div class="cart-item" *ngFor="let item of cartItems">
+          <div class="product-image" style="background-color: #f0e9d7">
+            <img [src]="item.urlImagen" alt="{{ item.nombre }}" />
+          </div>
+          <div class="product-details">
+            <h3>{{ item.nombre }}</h3>
+            <p class="product-description">{{ item.descripcion }}</p>
+            <p class="product-category">{{ item.categoria }}</p>
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <button
+                  class="quantity-btn minus"
+                  [disabled]="item.cantidad <= 1"
+                  (click)="updateQuantity(item, item.cantidad - 1)"
+                >
+                  <span class="material-symbols-rounded">remove</span>
+                </button>
+                <span class="quantity">{{ item.cantidad }}</span>
+                <button
+                  class="quantity-btn plus"
+                  (click)="updateQuantity(item, item.cantidad + 1)"
+                >
+                  <span class="material-symbols-rounded">add</span>
+                </button>
+              </div>
+              <button class="remove-btn" (click)="removeItem(item)">
+                <span class="material-symbols-rounded">delete</span>
+              </button>
+            </div>
+          </div>
+          <div class="product-price">
+            <span class="price">${{ item.precioUnitario.toFixed(2) }} MXN</span>
+            <span class="subtotal"
+              >Subtotal: ${{
+                (item.cantidad * item.precioUnitario).toFixed(2)
+              }}
+              MXN</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- FIN PRODUCTOS -->
+
+      <div class="cart-summary">
+        <h2>Resumen de compra</h2>
+        <div class="summary-details">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>${{ precioTotal.toFixed(2) }} MXN</span>
+          </div>
+
+          <div class="summary-row total">
+            <span>Total</span>
+            <span>${{ precioTotal.toFixed(2) }} MXN</span>
+          </div>
+        </div>
+        <button class="checkout-btn" routerLink="/checkout">
+          Proceder al pago
+        </button>
+        <div class="continue-shopping">
+          <a routerLink="/categorias">
+            <span class="material-symbols-rounded">arrow_back</span> Seguir
+            comprando
+          </a>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<app-footer></app-footer>

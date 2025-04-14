@@ -12,44 +12,28 @@ export class ToastService {
   showSuccess(mensaje: string) {
     return this.toast.success(mensaje, {
       duration: 4000,
-      autoClose: false,
       dismissible: true,
-      style: {
-        textAlign: 'center',
-      },
     });
   }
 
   showError(mensaje: string) {
     return this.toast.error(mensaje, {
       duration: 4000,
-      autoClose: false,
       dismissible: true,
-      style: {
-        textAlign: 'center',
-      },
     });
   }
 
   showInfo(mensaje: string) {
     return this.toast.info(mensaje, {
       duration: 4000,
-      autoClose: false,
       dismissible: true,
-      style: {
-        textAlign: 'center',
-      },
     });
   }
 
   showWarning(mensaje: string) {
     return this.toast.warning(mensaje, {
       duration: 4000,
-      autoClose: false,
       dismissible: true,
-      style: {
-        textAlign: 'center',
-      },
     });
   }
 

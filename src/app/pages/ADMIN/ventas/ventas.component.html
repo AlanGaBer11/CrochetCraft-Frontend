@@ -36,17 +36,21 @@
                 <strong>{{ item.nombre }}</strong>
                 <span>Categoría: {{ item.categoria }}</span>
                 <span>Cantidad: {{ item.cantidad }}</span>
-                <span>Precio Unitario: ${{ item.precio }}</span>
+                <span>Precio Unitario: ${{ item.precio.toFixed(2) }}</span>
               </div>
               <div class="product-price">
-                <span class="subtotal">Subtotal: ${{ item.subtotal }}</span>
+                <span class="subtotal"
+                  >Subtotal: ${{ item.subtotal.toFixed(2) }}</span
+                >
               </div>
             </div>
           </div>
 
           <div class="order-footer">
             <span class="payment-method">Pago: {{ order.metodoPago }}</span>
-            <span class="order-total">Total: ${{ order.precioTotal }}</span>
+            <span class="order-total"
+              >Total: ${{ order.precioTotal.toFixed(2) }}</span
+            >
           </div>
         </div>
       </div>

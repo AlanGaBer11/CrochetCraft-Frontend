@@ -1,0 +1,202 @@
+<app-nav-bar></app-nav-bar>
+
+<!-- Indicador de carga -->
+<div *ngIf="cargando" class="loading" style="text-align: center; padding: 50px">
+  <p>Cargando información del pedido...</p>
+</div>
+
+<!-- Mensaje de error -->
+<div
+  *ngIf="error"
+  class="error"
+  style="text-align: center; padding: 20px; color: red"
+>
+  <p>{{ error }}</p>
+  <button class="btn-back" routerLink="/carrito">Regresar al carrito</button>
+</div>
+
+<!-- Contenido del checkout -->
+<div class="order-container" *ngIf="!cargando && !error">
+  <header class="order-header">
+    <h1>
+      <span class="material-symbols-rounded">receipt</span> Resumen de tu Orden
+    </h1>
+    <div class="order-status">Pendiente de pago</div>
+  </header>
+
+  <div class="order-content">
+    <section class="order-summary">
+      <h2><span class="material-symbols-rounded">orders</span> Productos</h2>
+
+      <!-- Carrito vacío -->
+      <div
+        *ngIf="cartItems.length === 0"
+        style="text-align: center; padding: 20px"
+      >
+        <p>No hay productos en tu carrito</p>
+        <button
+          class="btn-back"
+          routerLink="/categorias"
+          style="margin-top: 15px"
+        >
+          Ir a comprar
+        </button>
+      </div>
+
+      <!-- Lista de productos -->
+      <div class="product-item" *ngFor="let item of cartItems">
+        <div class="product-image">
+          <img [src]="item.urlImagen" [alt]="item.nombre" />
+        </div>
+        <div class="product-info">
+          <h3>{{ item.nombre }}</h3>
+          <p class="product-variant">Categoría: {{ item.categoria }}</p>
+          <p class="product-quantity">Cantidad: {{ item.cantidad }}</p>
+        </div>
+        <div class="product-price">${{ item.subtotal.toFixed(2) }} MXN</div>
+      </div>
+
+      <div class="order-divider"></div>
+
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>${{ subtotal.toFixed(2) }} MXN</span>
+      </div>
+      <div class="summary-row discount" *ngIf="descuento > 0">
+        <span>Descuento</span>
+        <span>-${{ descuento.toFixed(2) }} MXN</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>${{ precioTotal.toFixed(2) }} MXN</span>
+      </div>
+    </section>
+
+    <section class="payment-method">
+      <h2>
+        <span class="material-symbols-rounded">credit_card</span>Método de Pago
+      </h2>
+
+      <div class="payment-options">
+        <div class="payment-option">
+          <input
+            type="radio"
+            id="cash"
+            name="payment"
+            [checked]="selectedPaymentMethod === 'cash'"
+            (change)="onPaymentMethodChange('cash')"
+          />
+          <label for="cash">
+            <span class="material-symbols-rounded">payments</span>
+            <span class="text">Efectivo</span>
+            <p>Pago al momento de recibir el pedido</p>
+          </label>
+        </div>
+
+        <div class="payment-option">
+          <input
+            type="radio"
+            id="credit"
+            name="payment"
+            [checked]="selectedPaymentMethod === 'credit'"
+            (change)="onPaymentMethodChange('credit')"
+          />
+          <label for="credit">
+            <span class="material-symbols-rounded">credit_card</span>
+            <span class="text">Tarjeta de Crédito</span>
+            <p>Pago seguro con tarjeta de crédito</p>
+          </label>
+        </div>
+
+        <div class="payment-option">
+          <input
+            type="radio"
+            id="debit"
+            name="payment"
+            [checked]="selectedPaymentMethod === 'debit'"
+            (change)="onPaymentMethodChange('debit')"
+          />
+          <label for="debit">
+            <span class="material-symbols-rounded">credit_card</span>
+            <span class="text">Tarjeta de Débito</span>
+            <p>Pago seguro con tarjeta de débito</p>
+          </label>
+        </div>
+
+        <div class="payment-option">
+          <input
+            type="radio"
+            id="transfer"
+            name="payment"
+            [checked]="selectedPaymentMethod === 'transfer'"
+            (change)="onPaymentMethodChange('transfer')"
+          />
+          <label for="transfer">
+            <span class="material-symbols-rounded">account_balance</span>
+            <span class="text">Transferencia Bancaria</span>
+            <p>Transfiere directamente a nuestra cuenta</p>
+          </label>
+        </div>
+      </div>
+
+      <!-- Mostrar detalles según método de pago seleccionado -->
+      <div class="payment-details" *ngIf="selectedPaymentMethod === 'cash'">
+        <h3>
+          <span class="material-symbols-rounded">info</span> Pago en Efectivo
+        </h3>
+        <p>
+          El pago se realizará al momento de recibir tu pedido. Asegúrate de
+          tener el monto exacto.
+        </p>
+      </div>
+
+      <div class="payment-details" *ngIf="selectedPaymentMethod === 'credit'">
+        <h3>
+          <span class="material-symbols-rounded">info</span> Pago con Tarjeta
+        </h3>
+        <p>
+          Tu pago será procesado de manera segura. Te redirigiremos a la
+          pasarela de pagos.
+        </p>
+      </div>
+
+      <div class="payment-details" *ngIf="selectedPaymentMethod === 'transfer'">
+        <h3>
+          <span class="material-symbols-rounded">info</span> Transferencia
+          Bancaria
+        </h3>
+        <p>Realiza una transferencia a la siguiente cuenta:</p>
+        <p>
+          <strong>Banco:</strong> CrochetBank<br />
+          <strong>Cuenta:</strong> 1234-5678-9012-3456<br />
+          <strong>CLABE:</strong> 012 345 678 901 234 567<br />
+          <strong>Titular:</strong> CrochetCraft S.A.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <footer class="order-footer">
+    <button
+      class="btn-back"
+      (click)="returnToCart()"
+      [disabled]="procesandoOrden"
+    >
+      <span class="material-symbols-rounded">arrow_back</span> Regresar
+    </button>
+    <button
+      class="btn-confirm"
+      [disabled]="cartItems.length === 0 || procesandoOrden"
+      (click)="confirmOrder()"
+    >
+      <span *ngIf="!procesandoOrden">
+        Confirmar y Pagar <span class="material-symbols-rounded">lock</span>
+      </span>
+      <span *ngIf="procesandoOrden">
+        Procesando... <span class="material-icons spinning">autorenew</span>
+      </span>
+    </button>
+  </footer>
+</div>
+
+<app-footer></app-footer>

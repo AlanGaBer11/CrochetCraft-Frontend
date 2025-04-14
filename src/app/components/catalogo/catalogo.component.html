@@ -1,3 +1,4 @@
+<app-nav-bar></app-nav-bar>
 <div class="search-box">
   <div class="search-input">
     <span class="material-symbols-rounded">search</span>
@@ -80,7 +81,7 @@
         </div>
         <div class="product-details">
           <h2>{{ producto.nombre }}</h2>
-          <h3>${{ producto.precio }} MXN</h3>
+          <h3>${{ producto.precio.toFixed(2) }} MXN</h3>
           <button
             type="button"
             class="more-btn"
@@ -247,3 +248,4 @@
     </div>
   </div>
 </div>
+<app-footer></app-footer>

@@ -28,7 +28,15 @@
         <tr *ngFor="let review of resenasPorCategoria[categoria]">
           <td>{{ review.item.nombre }}</td>
           <td>{{ review.userId?.nombre || "Anónimo" }}</td>
-          <td>{{ review.item.calificacion }}/5</td>
+          <td>
+            <div class="rating">
+              <span
+                class="material-symbols-rounded"
+                *ngFor="let star of [].constructor(review.item.calificacion)"
+                >star</span
+              >
+            </div>
+          </td>
           <td>{{ review.item.comentario }}</td>
           <td>
             <button class="delete-btn" (click)="deleteResena(review.item._id)">

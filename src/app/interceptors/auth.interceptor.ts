@@ -44,7 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
         '/product/deleteProduct',
 
         /* CARRITO */
-        '/cart/',
+        '/cart',
         '/cart/add',
         '/cart/remove',
         '/cart/clear',
@@ -52,7 +52,7 @@ export class AuthInterceptor implements HttpInterceptor {
         /* ORDENES */
         '/order/getOrders',
         '/order/getOrderById',
-        '/order/cretaeOrder',
+        '/order/createOrder',
         '/order/updtaeOrder',
         '/order/deleteOrder',
 

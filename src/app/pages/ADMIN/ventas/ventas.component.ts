@@ -11,7 +11,6 @@ import { ToastService } from '../../../services/toast/toast.service';
 export class VentasComponent implements OnInit {
   orders: any[] = [];
   expandedOrders: string[] = [];
-
   cargando: boolean = true;
   error: string | null = null;
 

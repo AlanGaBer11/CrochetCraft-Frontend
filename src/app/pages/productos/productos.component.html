@@ -1,3 +1,4 @@
+<app-nav-bar></app-nav-bar>
 <div class="container">
   <!-- Navegación -->
   <div class="breadcrumb">
@@ -28,36 +29,44 @@
     </div>
     <div class="product-details">
       <h1>{{ nombre }}</h1>
-      <!-- Calificación promedio -->
-      <div class="rating-container">
-        <div class="stars">
-          <span
-            class="material-symbols-rounded"
-            *ngFor="let star of getStars(calculateAverageRating())"
-          >
-            star
-          </span>
-          <span
-            class="material-symbols-rounded"
-            *ngFor="let emptyStar of getStars(5 - calculateAverageRating())"
-          >
-            star_outline
-          </span>
-        </div>
-        <span class="average-rating" *ngIf="reviews.length > 0">
-          {{ calculateAverageRating() }} ({{ reviews.length }}
-          {{ reviews.length === 1 ? "opinión" : "opiniones" }})
-        </span>
-        <span class="no-ratings" *ngIf="reviews.length === 0"
-          >Sin calificaciones</span
-        >
-      </div>
-      <p>{{ descripcion }}</p>
-      <h2 class="price">${{ precio }} MXN</h2>
+      <!-- ... existing code ... -->
+      <h2 class="price">${{ precio.toFixed(2) }} MXN</h2>
       <p>Stock disponible: {{ stock }}</p>
-      <button class="add-to-cart">
-        <span class="material-symbols-rounded"> add_shopping_cart </span>Agregar
-        al carrito
+
+      <!-- Selector de cantidad -->
+      <div class="quantity-selector">
+        <label for="quantity">Cantidad:</label>
+        <div class="quantity-controls">
+          <button
+            type="button"
+            class="quantity-btn minus"
+            [disabled]="cantidad <= 1"
+            (click)="cantidad = cantidad > 1 ? cantidad - 1 : 1"
+          >
+            <span class="material-symbols-rounded">remove</span>
+          </button>
+          <input
+            type="number"
+            id="quantity"
+            [(ngModel)]="cantidad"
+            min="1"
+            [max]="stock"
+            [disabled]="stock <= 0"
+          />
+          <button
+            type="button"
+            class="quantity-btn plus"
+            [disabled]="cantidad >= stock"
+            (click)="cantidad = cantidad < stock ? cantidad + 1 : stock"
+          >
+            <span class="material-symbols-rounded">add</span>
+          </button>
+        </div>
+      </div>
+
+      <button class="add-to-cart" [disabled]="stock <= 0" (click)="addToCart()">
+        <span class="material-symbols-rounded">add_shopping_cart</span>
+        {{ stock > 0 ? "Agregar al carrito" : "Agotado" }}
       </button>
     </div>
   </div>
@@ -164,3 +173,4 @@
     </div>
   </div>
 </div>
+<app-footer></app-footer>

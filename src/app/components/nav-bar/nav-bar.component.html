@@ -21,11 +21,52 @@
           Contacto
           <span class="material-symbols-rounded">arrow_drop_down</span>
         </a>
-        <ul>
-          <li class="sub"><a href="#whatsapp" target="_blank">WhatsApp</a></li>
+      </li>
+      <!-- CARRITO -->
+      <li class="cart-icon">
+        <span class="material-symbols-rounded"> shopping_cart </span>
+        <span class="cart-count" *ngIf="cartItems && cartItems.length > 0">{{
+          cartItems.length
+        }}</span>
+        <ul class="cart-preview">
+          <div class="cart-header">
+            <h3>Tu Carrito</h3>
+          </div>
+          <div class="cart-items" *ngIf="cartItems && cartItems.length > 0">
+            <li class="cart-item" *ngFor="let item of cartItems">
+              <div class="item-details">
+                <div class="item-row">
+                  <p class="item-name">{{ item.name }}</p>
+                  <div class="line"></div>
+                  <p class="item-name">Cantidad: {{ item.quantity }}</p>
+                </div>
+                <div class="item-row">
+                  <p class="item-price">${{ item.price.toFixed(2) }}</p>
+                  <div class="line"></div>
+                  <p class="item-name">
+                    Subtotal: ${{ item.subtotal.toFixed(2) }}
+                  </p>
+                </div>
+              </div>
+            </li>
+          </div>
+          <div class="empty-cart" *ngIf="!cartItems || cartItems.length === 0">
+            <p>Tu carrito está vacío</p>
+          </div>
+          <div class="cart-footer" *ngIf="cartItems && cartItems.length > 0">
+            <div class="cart-total">
+              <span>Total:</span>
+              <span class="item-price">${{ precioTotal.toFixed(2) }}</span>
+            </div>
+            <div class="cart-actions">
+              <button class="view-cart-btn" routerLink="/carrito">
+                Ver carrito
+              </button>
+            </div>
+          </div>
         </ul>
       </li>
-      <li><span class="material-symbols-rounded"> shopping_cart </span></li>
+      <!-- FIN CARRITO -->
 
       <!-- Si NO está autenticado, muestra el botón de Registrarse -->
       <button *ngIf="!isLoggedIn" type="button" routerLink="/auth">

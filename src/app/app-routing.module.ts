@@ -1,54 +1,68 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-/* PÁGINAS */
-import { HomeComponent } from './pages/home/home.component';
 
-/* TEST */
-import { Test01Component } from './test/test01/test01.component';
-import { Test02Component } from './test/test02/test02.component';
+/* COMPONENTES */
 import { AuthComponent } from './components/auth/auth.component';
+
+/* PÁGINAS PRINCIPALES */
+import { HomeComponent } from './pages/home/home.component';
 import { CategoriasComponent } from './pages/categorias/categorias.component';
+import { ContactoComponent } from './pages/contacto/contacto.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
+import { ProductosComponent } from '../app/pages/productos/productos.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+
+/* CATALOGOS */
 import { CatalogoFloresComponent } from './pages/catalogos/catalogo-flores/catalogo-flores.component';
 import { CatalogoAmigurumisComponent } from './pages/catalogos/catalogo-amigurumis/catalogo-amigurumis.component';
 import { CatalogoLlaverosComponent } from './pages/catalogos/catalogo-llaveros/catalogo-llaveros.component';
 import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-ropa.component';
-import { ProductosComponent } from '../app/pages/productos/productos.component';
-import { ContactoComponent } from './pages/contacto/contacto.component';
-import { PerfilComponent } from './pages/perfil/perfil.component';
-/* ADMIN */
+
+/* ADMIN DASHBOARD Y COMPONENTES */
 import { DashboardComponent } from './pages/ADMIN/dashboard/dashboard.component';
 import { UsuariosComponent } from './pages/ADMIN/usuarios/usuarios.component';
 import { ProductsComponent } from './pages/ADMIN/products/products.component';
 import { VentasComponent } from './pages/ADMIN/ventas/ventas.component';
 import { ResenasComponent } from './pages/ADMIN/resenas/resenas.component';
+
+/* GUARDS */
 import { AdminGuard } from './guards/admin.guard';
 
-const routes: Routes = [
-  { path: 'inicio', component: HomeComponent },
-  { path: '', component: HomeComponent, pathMatch: 'full' },
-  /* RUTAS NO ENCONTRADAS */
-  /* { path: '**', redirectTo: 'inicio' }, */
+/* PÁGINAS DE ERROR */
+import { Error404Component } from './pages/error/error404/error404.component';
+import { Error403Component } from './pages/error/error403/error403.component';
 
+const routes: Routes = [
+  /* RUTAS PRINCIPALES */
+  { path: 'inicio', component: HomeComponent },
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
   { path: 'categorias', component: CategoriasComponent },
   { path: 'contacto', component: ContactoComponent },
   { path: 'perfil', component: PerfilComponent },
+  { path: 'carrito', component: CartComponent },
+  { path: 'checkout', component: CheckoutComponent },
 
-  /* PRUEBAS */
-  { path: 'test01', component: Test01Component },
-  { path: 'test02', component: Test02Component },
-
+  /* AUTENTICACIÓN */
   { path: 'auth', component: AuthComponent },
-  /* CATALOGOS */
+
+  /* CATALOGOS DE PRODUCTOS */
   { path: 'flores', component: CatalogoFloresComponent },
   { path: 'amigurumis', component: CatalogoAmigurumisComponent },
   { path: 'llaveros', component: CatalogoLlaverosComponent },
   { path: 'ropa', component: CatalogoRopaComponent },
-  /* PRODUCTOS */
+
+  /* DETALLES DE PRODUCTOS */
   { path: 'flores/:nombre', component: ProductosComponent },
   { path: 'amigurumis/:nombre', component: ProductosComponent },
   { path: 'llaveros/:nombre', component: ProductosComponent },
   { path: 'ropa/:nombre', component: ProductosComponent },
-  /* ADMIN */
+
+  /* PÁGINAS DE ERROR */
+  { path: 'pagina404', component: Error404Component },
+  { path: 'pagina403', component: Error403Component },
+
+  /* DASHBOARD DE ADMINISTRACIÓN */
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -61,12 +75,18 @@ const routes: Routes = [
       { path: 'reseñas', component: ResenasComponent },
     ],
   },
+
+  /* RUTAS NO ENCONTRADAS */
+  { path: '**', component: Error404Component },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
       scrollPositionRestoration: 'enabled',
+      errorHandler: (error: any) => {
+        console.error('Router error:', error);
+      },
     }),
   ],
   exports: [RouterModule],

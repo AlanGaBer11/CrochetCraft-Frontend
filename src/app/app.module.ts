@@ -8,16 +8,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-// ANIMACIONES
+/* ANIMACIONES */
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 /* NOTIFICACIONES TOAST */
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
+/* FORMULARIOS */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { CommonModule } from '@angular/common';
 
+/* HTTP Y AUTENTICACIÓN */
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -25,31 +26,36 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 /* reCAPTCHA */
 import { NgxCaptchaModule } from 'ngx-captcha';
 
+/* MÓDULO DE RUTAS Y COMPONENTE PRINCIPAL */
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-/* COMPONENTES */
+/* COMPONENTES COMUNES */
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { CatalogoComponent } from './components/catalogo/catalogo.component';
 
-/* PÁGINAS */
+/* PÁGINAS PRINCIPALES */
 import { HomeComponent } from './pages/home/home.component';
 import { CategoriasComponent } from './pages/categorias/categorias.component';
+import { ProductosComponent } from './pages/productos/productos.component';
+import { ContactoComponent } from './pages/contacto/contacto.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
-/* TEST */
-import { Test01Component } from './test/test01/test01.component';
-import { Test02Component } from './test/test02/test02.component';
+/* PÁGINAS DE ERROR */
+import { Error404Component } from './pages/error/error404/error404.component';
+import { Error403Component } from './pages/error/error403/error403.component';
 
-/* CATALOGOS */
-import { CatalogoComponent } from './components/catalogo/catalogo.component';
+/* CATÁLOGOS DE PRODUCTOS */
 import { CatalogoFloresComponent } from './pages/catalogos/catalogo-flores/catalogo-flores.component';
 import { CatalogoAmigurumisComponent } from './pages/catalogos/catalogo-amigurumis/catalogo-amigurumis.component';
 import { CatalogoLlaverosComponent } from './pages/catalogos/catalogo-llaveros/catalogo-llaveros.component';
 import { CatalogoRopaComponent } from './pages/catalogos/catalogo-ropa/catalogo-ropa.component';
-import { ProductosComponent } from './pages/productos/productos.component';
-import { ContactoComponent } from './pages/contacto/contacto.component';
-import { PerfilComponent } from './pages/perfil/perfil.component';
+
+/* COMPONENTES DE ADMINISTRACIÓN */
 import { DashboardComponent } from './pages/ADMIN/dashboard/dashboard.component';
 import { UsuariosComponent } from './pages/ADMIN/usuarios/usuarios.component';
 import { VentasComponent } from './pages/ADMIN/ventas/ventas.component';
@@ -58,23 +64,35 @@ import { ProductsComponent } from './pages/ADMIN/products/products.component';
 
 @NgModule({
   declarations: [
+    /* COMPONENTE PRINCIPAL */
     AppComponent,
+
+    /* COMPONENTES COMUNES */
     NavBarComponent,
     FooterComponent,
-    Test01Component,
-    Test02Component,
-    HomeComponent,
     AuthComponent,
-    CategoriasComponent,
     CatalogoComponent,
+
+    /* PÁGINAS PRINCIPALES */
+    HomeComponent,
+    CategoriasComponent,
+    ProductosComponent,
+    ContactoComponent,
+    PerfilComponent,
+    CartComponent,
+    CheckoutComponent,
+
+    /* CATÁLOGOS DE PRODUCTOS */
     CatalogoFloresComponent,
     CatalogoAmigurumisComponent,
     CatalogoLlaverosComponent,
     CatalogoRopaComponent,
-    ProductosComponent,
-    ContactoComponent,
-    PerfilComponent,
-    /* COMPONENTES DE ADMIN */
+
+    /* PÁGINAS DE ERROR */
+    Error404Component,
+    Error403Component,
+
+    /* COMPONENTES DE ADMINISTRACIÓN */
     DashboardComponent,
     UsuariosComponent,
     VentasComponent,
@@ -82,21 +100,31 @@ import { ProductsComponent } from './pages/ADMIN/products/products.component';
     ProductsComponent,
   ],
   imports: [
+    /* MÓDULOS CORE */
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    CommonModule,
+
+    /* FORMULARIOS */
     FormsModule,
     ReactiveFormsModule,
-    CommonModule,
-    NgxCaptchaModule,
+
+    /* ANGULAR MATERIAL */
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
-    HttpClientModule,
+
+    /* OTROS MÓDULOS */
+    NgxCaptchaModule,
   ],
   providers: [
+    /* ANIMACIONES Y ROUTER */
     provideAnimationsAsync(),
     provideHotToastConfig(),
     provideRouter([], withViewTransitions()),
+
+    /* SERVICIOS E INTERCEPTORES */
     CookieService,
     {
       provide: HTTP_INTERCEPTORS,
